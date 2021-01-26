@@ -1,8 +1,8 @@
 %% TEAS multifeature auditory oddball script
 % o-ptb 
 
-% Author: Patrick Neff, Ph.D., clinical neuroscience
-% University of Zurich
+% Author: Patrick Neff, Ph.D., 
+% University of Salzburg/Zurich
 % email address: schlaukeit@gmail.com  
 % Website: 
 % December 2020; Last revision: 18-Jan-2021
@@ -32,15 +32,17 @@ ptb_cfg.fullscreen = false;
 ptb_cfg.window_scale = 0.2;
 ptb_cfg.skip_sync_test = true;
 ptb_cfg.hide_mouse = false;
+ptb_cfg.psychportaudio_config.freq = 44100;
+ptb_cfg.psychportaudio_config.device = 3;
+
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
 
-
 %% init systems
 
-ptb_cfg.internal_config.final_resolution = [1980 1024];
-
+%ptb_cfg.internal_config.final_resolution = [1980 1024];
 % ptb.setup_screen;   
+
 ptb.setup_audio;
 ptb.setup_trigger;
 
@@ -64,10 +66,12 @@ sl_5000 = str2num(answer{2});
 sl_tin = str2num(answer{3});
 
 
-
 %% create stimuli, standard and deviants
-%most critical: check dynamic range and loudness ranges!
+%most critical: check dynamic range and loudness!
 %also careful with one shot scripting, redo var names
+%for smooth code, create a class and maybe package - or use proper instance
+%copy with matlab.mixin.Copyable / copy()
+%ramp 1 ms ok?
 
 % constants
 f_1000 = 1000; %maybe obsolete...
@@ -99,33 +103,39 @@ s_1000_freq_down_12 = o_ptb.stimuli.auditory.Sine(f_1000-0.1*f_1000, dur);
 s_1000_freq_down_12.db = std_db;
 s_1000_freq_down_12.apply_cos_ramp(rmp);
 
-%duration
-s_1000_dur_up_15 = o_ptb.stimuli.auditory.Sine(1000, dur+0.015);
-s_1000_dur_up_15.db = std_db;
-s_1000_dur_up_15.apply_cos_ramp(rmp);
+%location . channel issue? maybe fix with muted channels  muted_channels : int or array of ints If empty (i.e. []), both channels are played. If set to 1, the left channel is muted. If set to 2, the right channel is muted. If set to   [1 2], both channels are muted.
+s_1000_loc_l_17 = o_ptb.stimuli.auditory.Sine(1000, dur);	
+s_1000_loc_l_17.angle = -pi/2;
+% s_1000_loc_l_17.muted_channels = 2;
+s_1000_loc_l_17.db = std_db; 
+s_1000_loc_l_17.apply_cos_ramp(rmp);
 
-s_1000_dur_dwn_16 = o_ptb.stimuli.auditory.Sine(1000, dur-0.015);
+s_1000_loc_r_17 = o_ptb.stimuli.auditory.Sine(1000, dur);	
+s_1000_loc_r_17.angle = pi/2;
+% s_1000_loc_r_17.muted_channels = 1;
+s_1000_loc_r_17.db = std_db; 
+s_1000_loc_r_17.apply_cos_ramp(rmp);
+
+%duration
+s_1000_dur_dwn_16 = o_ptb.stimuli.auditory.Sine(1000, dur-0.05);
 s_1000_dur_dwn_16.db = std_db;
 s_1000_dur_dwn_16.apply_cos_ramp(rmp);
 
-%location
-
-
-
 %gap
+s_1000_gap_18_1 = o_ptb.stimuli.auditory.Sine(1000, 0.034 );
+s_1000_gap_18_1.db = std_db;
+s_1000_gap_18_1.apply_cos_ramp(rmp);
 
+s_1000_gap_18_2 = o_ptb.stimuli.auditory.Sine(1000, 0.034 );
+s_1000_gap_18_2.db = std_db;
+s_1000_gap_18_2.apply_cos_ramp(rmp);
 
+s_1000_gap_18_gap = o_ptb.stimuli.auditory.Sine(1000, 0.007 );
+s_1000_gap_18_gap.db = -100;
+s_1000_gap_18_gap.apply_cos_ramp(0.001);
 
-%% create a sine wave and make a sound object, add ramps
+% fuse
 
-% class +o_ptb.+stimuli.+auditory.Sine(freq,duration)
-
-s_rate = 44100;
-freq = 1000;
-amplitude = 0.1; %db2mag / mag2db
-duration = 0.075;
-sound_data = amplitude * sin(2*pi*(1:(s_rate*duration))/s_rate*freq);
-sin_sound = o_ptb.stimuli.auditory.FromMatrix(sound_data, s_rate);
 
 
 %% play it
@@ -134,15 +144,17 @@ ptb.prepare_audio(s_1000_st_10);
 ptb.schedule_audio;
 ptb.play_without_flip;
 
+
+
 %% trigger
 
-ptb.prepare_audio(my_sound);
+ptb.prepare_audio(s_1000_loc_l_17);
 ptb.prepare_trigger(1);
-ptb.prepare_audio(my_sound, 0.5, true);
+ptb.prepare_audio(s_1000_loc_r_17, 0.5, true);
 ptb.prepare_trigger(2, 0.5, true);
+ptb.prepare_audio(s_1000_st_10, 1, true);
+ptb.prepare_trigger(3, 0.5, true)
 ptb.schedule_audio;
 ptb.schedule_trigger;
 ptb.play_without_flip;
-
-
 
