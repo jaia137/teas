@@ -44,3 +44,6 @@ codegen/
 
 # Octave session info
 octave-workspace
+.DS_Store
+src/.DS_Store
+src/matlab/.DS_Store
