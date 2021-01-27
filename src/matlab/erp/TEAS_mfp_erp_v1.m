@@ -40,8 +40,9 @@ ptb = o_ptb.PTB.get_instance(ptb_cfg);
 
 %% init systems
 
-%ptb_cfg.internal_config.final_resolution = [1980 1024];
-% ptb.setup_screen;   
+ptb_cfg.internal_config.final_resolution = [800 600];
+ptb_cfg.internal_config.use_decorated_window = true;
+ptb.setup_screen;   
 
 ptb.setup_audio;
 ptb.setup_trigger;
@@ -85,15 +86,6 @@ s_1000_st_10 = o_ptb.stimuli.auditory.Sine(1000, dur);
 s_1000_st_10.db = std_db; %check dynamic range
 s_1000_st_10.apply_cos_ramp(rmp);
 
-% loudness
-s_1000_loud_up_13 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_up_13.db = std_db + 10;
-s_1000_loud_up_13.apply_cos_ramp(rmp);
-
-s_1000_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_dwn_14.db = std_db - 10;
-s_1000_loud_dwn_14.apply_cos_ramp(rmp);
-
 % freq
 s_1000_freq_up_11 = o_ptb.stimuli.auditory.Sine(f_1000+0.1*f_1000, dur);
 s_1000_freq_up_11.db = std_db;
@@ -103,23 +95,32 @@ s_1000_freq_down_12 = o_ptb.stimuli.auditory.Sine(f_1000-0.1*f_1000, dur);
 s_1000_freq_down_12.db = std_db;
 s_1000_freq_down_12.apply_cos_ramp(rmp);
 
-%location . channel issue? maybe fix with muted channels  muted_channels : int or array of ints If empty (i.e. []), both channels are played. If set to 1, the left channel is muted. If set to 2, the right channel is muted. If set to   [1 2], both channels are muted.
-s_1000_loc_l_17 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_l_17.angle = -pi/2;
-% s_1000_loc_l_17.muted_channels = 2;
-s_1000_loc_l_17.db = std_db; 
-s_1000_loc_l_17.apply_cos_ramp(rmp);
+% loudness
+s_1000_loud_up_13 = o_ptb.stimuli.auditory.Sine(1000, dur);
+s_1000_loud_up_13.db = std_db + 10;
+s_1000_loud_up_13.apply_cos_ramp(rmp);
 
-s_1000_loc_r_17 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_r_17.angle = pi/2;
+s_1000_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(1000, dur);
+s_1000_loud_dwn_14.db = std_db - 10;
+s_1000_loud_dwn_14.apply_cos_ramp(rmp);
+
+%location . channel issue? maybe fix with muted channels  muted_channels : int or array of ints If empty (i.e. []), both channels are played. If set to 1, the left channel is muted. If set to 2, the right channel is muted. If set to   [1 2], both channels are muted.
+s_1000_loc_l_15 = o_ptb.stimuli.auditory.Sine(1000, dur);	
+s_1000_loc_l_15.angle = -pi/2;
+% s_1000_loc_l_17.muted_channels = 2;
+s_1000_loc_l_15.db = std_db; 
+s_1000_loc_l_15.apply_cos_ramp(rmp);
+
+s_1000_loc_r_16 = o_ptb.stimuli.auditory.Sine(1000, dur);	
+s_1000_loc_r_16.angle = pi/2;
 % s_1000_loc_r_17.muted_channels = 1;
-s_1000_loc_r_17.db = std_db; 
-s_1000_loc_r_17.apply_cos_ramp(rmp);
+s_1000_loc_r_16.db = std_db; 
+s_1000_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
-s_1000_dur_dwn_16 = o_ptb.stimuli.auditory.Sine(1000, dur-0.05);
-s_1000_dur_dwn_16.db = std_db;
-s_1000_dur_dwn_16.apply_cos_ramp(rmp);
+s_1000_dur_17 = o_ptb.stimuli.auditory.Sine(1000, dur-0.05);
+s_1000_dur_17.db = std_db;
+s_1000_dur_17.apply_cos_ramp(rmp);
 
 % gap
 %ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
@@ -148,25 +149,27 @@ gap_x = [gap_1,gap,gap_2];
 s_1000_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
 s_1000_gap_18.db = std_db;
 
+
+
+%make frequency specific stimuli bundles for the experimental blocks
+
+b_1000 = who('s_1000*');
+
+b_1000 = [s_1000_st_10,s_1000_freq_up_11,s_1000_freq_down_12,s_1000_loud_up_13, s_1000_loud_dwn_14,s_1000_loc_l_15,s_1000_loc_r_16,s_1000_dur_17];
+
 %% trigger/audio test
 
-ptb.prepare_audio(s_1000_loc_l_17);
-ptb.prepare_trigger(1);
-ptb.prepare_audio(s_1000_loc_r_17, 0.5, true);
-ptb.prepare_trigger(2, 0.5, true);
-ptb.prepare_audio(s_1000_st_10, 1, true);
-ptb.prepare_trigger(3, 0.5, true);
+% ptb.prepare_audio(s_1000_loc_l_17);
+% ptb.prepare_trigger(1);
+% ptb.prepare_audio(s_1000_loc_r_17, 0.5, true);
+% ptb.prepare_trigger(2, 0.5, true);
+% ptb.prepare_audio(s_1000_st_10, 1, true);
+% ptb.prepare_trigger(3, 0.5, true);
+% 
+% ptb.schedule_audio;
+% ptb.schedule_trigger;
+% ptb.play_without_flip;
 
-ptb.schedule_audio;
-ptb.schedule_trigger;
-ptb.play_without_flip;
-
-
-%% block, loops
-
-% b_1000 = who('s_*');
-
-b_1000 = [s_1000_dur_dwn_16,s_1000_freq_down_12,s_1000_freq_up_11];
 
 for i = 1:length(b_1000)
 ptb.prepare_audio(b_1000(i), 0.5, true);
@@ -174,4 +177,93 @@ ptb.schedule_audio;
 ptb.play_without_flip;
 
 end
+
+%% Setup PTB vanilla triggers
+
+config_io;
+
+ioObj = io64;
+
+status = io64(ioObj);
+
+%
+% if status = 0, you are now ready to write and read to a hardware port
+% let's try sending the value=1 to the parallel printer's output port (LPT1)
+address = hex2dec('d010');          %standard LPT1 output port address
+data_out=1; 
+%% EXPERIMENT
+%prep
+
+texts = [];
+texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
+
+% BLOCK 1, 1000 Hz
+%randomize blocks!
+
+WaitSecs(1);
+
+% standard trail, 15 reps
+
+% byte10 = 10;
+
+for i = 1:15
+    ptb.prepare_audio(s_1000_st_10, 0.5, true);
+    ptb.schedule_audio;
+    ptb.play_without_flip;
+    %outp(address,byte10)
+end
+
+
+%% main block, rndm
+
+% init rndm dev seq
+dev_rnd = [1 2 3 4 5];
+rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
+dev_rnd_seq = [];
+
+
+%% single dev blocks, full rndm and no neighbors
+
+for i = 1:60
+    dev_rnd_seq(i).name = randperm(length(dev_rnd));
+end
+
+for j =2:60
+    if dev_rnd_seq(j-1).name(5) == dev_rnd_seq(j).name(1)
+        dev_rnd_seq(j).name(1) = dev_rnd_seq(j-1).name(3);
+        dev_rnd_seq(j-1).name(3) = dev_rnd_seq(j).name(1);
+    else
+        disp('ok');
+    end
+end
+
+
+%% rndm arrays for dichotomous stimuli
+
+dev_subs = {'frq', 'loud', 'loc'};
+
+dev_sub_loud = [1 2];
+
+for i = 1:60
+    dev_sub_loud_seq(i).name = randperm(length(dev_sub_loud));
+end
+
+%%
+
+
+
+
+
+
+
+for j = dev_subs
+
+dev_sub_rnd(j) = [];    
+    
+rng('shuffle');       
+dev_sub_rnd(j) = [1 2];
+  
+end
+
+dev_sub_rnd_seq(j).name = [];
 
