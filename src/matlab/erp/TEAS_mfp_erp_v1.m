@@ -1,5 +1,5 @@
 %% TEAS multifeature auditory oddball script
-% o-ptb 
+% o-ptb, ptb 
 
 % Author: Patrick Neff, Ph.D., 
 % University of Salzburg/Zurich
@@ -32,17 +32,17 @@ ptb_cfg.fullscreen = false;
 ptb_cfg.window_scale = 0.2;
 ptb_cfg.skip_sync_test = true;
 ptb_cfg.hide_mouse = false;
-ptb_cfg.psychportaudio_config.freq = 44100;
-ptb_cfg.psychportaudio_config.device = 3;
+% ptb_cfg.psychportaudio_config.freq = 44100;
+ptb_cfg.psychportaudio_config.device = 1;
 
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
 
 %% init systems
 
-ptb_cfg.internal_config.final_resolution = [800 600];
-ptb_cfg.internal_config.use_decorated_window = true;
-ptb.setup_screen;   
+% ptb_cfg.internal_config.final_resolution = [800 600];
+% ptb_cfg.internal_config.use_decorated_window = true;
+% ptb.setup_screen;   
 
 ptb.setup_audio;
 ptb.setup_trigger;
@@ -194,8 +194,8 @@ data_out=1;
 %% EXPERIMENT
 %prep
 
-texts = [];
-texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
+% texts = [];
+% texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
 
 % BLOCK 1, 1000 Hz
 %randomize blocks!
@@ -207,7 +207,7 @@ WaitSecs(1);
 % byte10 = 10;
 
 for i = 1:15
-    ptb.prepare_audio(s_1000_st_10, 0.5, true);
+    ptb.prepare_audio(s_1000_gap_18, 0.5, true);
     ptb.schedule_audio;
     ptb.play_without_flip;
     %outp(address,byte10)
@@ -221,8 +221,27 @@ dev_rnd = [1 2 3 4 5];
 rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
 dev_rnd_seq = [];
 
+%% oink
 
-%% single dev blocks, full rndm and no neighbors
+for i = 1:20;
+result1=randperm(5);
+result=[result1,result1(randi(3))]
+end
+
+
+% r = randi(5,1,60)
+ 
+%% doink
+
+R = randi(5,[500,5]);
+R(any(diff(R,[],2) == 0,2),:) = [];
+size(R)
+
+   
+R = R(1:100,:);
+
+
+%% single dev blocks, full rndm and no neighbors, dichotomous devs with half probability
 
 for i = 1:60
     dev_rnd_seq(i).name = randperm(length(dev_rnd));
@@ -230,40 +249,57 @@ end
 
 for j =2:60
     if dev_rnd_seq(j-1).name(5) == dev_rnd_seq(j).name(1)
-        dev_rnd_seq(j).name(1) = dev_rnd_seq(j-1).name(3);
-        dev_rnd_seq(j-1).name(3) = dev_rnd_seq(j).name(1);
+      [dev_rnd_seq(j).name(2), dev_rnd_seq(j).name(1)] =  deal(dev_rnd_seq(j).name(1), dev_rnd_seq(j).name(2));
+    end 
+end
+
+dev_sub_rnd = [1 2];
+
+for k = 1:60
+    dev_sub_rnd_seq(k).name = randperm(length(dev_sub_rnd));
+end
+
+
+
+%% sub deviants
+
+% frq
+d_f = (round(rand(1,60)))';
+
+for i = 1:numel(d_f)
+    if d_f(i) == 0
+        d_f(i) = 11;
     else
-        disp('ok');
+        d_f(i) = 12;
     end
 end
 
+% loud
+d_l = (round(rand(1,60)))';
 
-%% rndm arrays for dichotomous stimuli
-
-dev_subs = {'frq', 'loud', 'loc'};
-
-dev_sub_loud = [1 2];
-
-for i = 1:60
-    dev_sub_loud_seq(i).name = randperm(length(dev_sub_loud));
+for i = 1:numel(d_l)
+    if d_l(i) == 0
+        d_l(i) = 13;
+    else
+        d_l(i) = 14;
+    end
 end
 
-%%
+% loc
+d_lo = (round(rand(1,60)))';
 
-
-
-
-
-
-
-for j = dev_subs
-
-dev_sub_rnd(j) = [];    
-    
-rng('shuffle');       
-dev_sub_rnd(j) = [1 2];
-  
+for i = 1:numel(d_lo)
+    if d_lo(i) == 0
+        d_lo(i) = 15;
+    else
+        d_lo(i) = 16;
+    end
 end
 
-dev_sub_rnd_seq(j).name = [];
+%% create final deviant stim matrix with sub deviants
 
+for i =1:60
+    if dev_sub_rnd_seq(i).name(:) == 1
+       dev_sub_rnd_seq(i).name(:) = d_l(i);
+    end
+end
