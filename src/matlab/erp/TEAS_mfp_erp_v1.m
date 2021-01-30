@@ -159,24 +159,13 @@ b_1000 = [s_1000_st_10,s_1000_freq_up_11,s_1000_freq_down_12,s_1000_loud_up_13, 
 
 %% trigger/audio test
 
-% ptb.prepare_audio(s_1000_loc_l_17);
-% ptb.prepare_trigger(1);
-% ptb.prepare_audio(s_1000_loc_r_17, 0.5, true);
-% ptb.prepare_trigger(2, 0.5, true);
-% ptb.prepare_audio(s_1000_st_10, 1, true);
-% ptb.prepare_trigger(3, 0.5, true);
-% 
-% ptb.schedule_audio;
-% ptb.schedule_trigger;
-% ptb.play_without_flip;
-
-
 for i = 1:length(b_1000)
 ptb.prepare_audio(b_1000(i), 0.5, true);
 ptb.schedule_audio;
 ptb.play_without_flip;
 
 end
+
 
 %% Setup PTB vanilla triggers
 
@@ -191,27 +180,6 @@ status = io64(ioObj);
 % let's try sending the value=1 to the parallel printer's output port (LPT1)
 address = hex2dec('d010');          %standard LPT1 output port address
 data_out=1; 
-%% EXPERIMENT
-%prep
-
-% texts = [];
-% texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
-
-% BLOCK 1, 1000 Hz
-%randomize blocks!
-
-WaitSecs(1);
-
-% standard trail, 15 reps
-
-% byte10 = 10;
-
-for i = 1:15
-    ptb.prepare_audio(s_1000_gap_18, 0.5, true);
-    ptb.schedule_audio;
-    ptb.play_without_flip;
-    %outp(address,byte10)
-end
 
 
 %% main block, rndm
@@ -220,25 +188,6 @@ end
 dev_rnd = [1 2 3 4 5];
 rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
 dev_rnd_seq = [];
-
-%% oink
-
-for i = 1:20;
-result1=randperm(5);
-result=[result1,result1(randi(3))]
-end
-
-
-% r = randi(5,1,60)
- 
-%% doink
-
-R = randi(5,[500,5]);
-R(any(diff(R,[],2) == 0,2),:) = [];
-size(R)
-
-   
-R = R(1:100,:);
 
 
 %% single dev blocks, full rndm and no neighbors, dichotomous devs with half probability
@@ -261,10 +210,15 @@ end
 
 
 
+
 %% sub deviants
 
+M=1;
+N=60;
+
 % frq
-d_f = (round(rand(1,60)))';
+d_f = (mod( reshape(randperm(M*N), M, N), 2 ))';
+
 
 for i = 1:numel(d_f)
     if d_f(i) == 0
@@ -275,7 +229,7 @@ for i = 1:numel(d_f)
 end
 
 % loud
-d_l = (round(rand(1,60)))';
+d_l = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_l)
     if d_l(i) == 0
@@ -286,7 +240,7 @@ for i = 1:numel(d_l)
 end
 
 % loc
-d_lo = (round(rand(1,60)))';
+d_lo = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_lo)
     if d_lo(i) == 0
@@ -296,10 +250,212 @@ for i = 1:numel(d_lo)
     end
 end
 
+
 %% create final deviant stim matrix with sub deviants
+%make more elegant, efficient: if any subfield = target number...
 
 for i =1:60
-    if dev_sub_rnd_seq(i).name(:) == 1
-       dev_sub_rnd_seq(i).name(:) = d_l(i);
+    if dev_rnd_seq(i).name(1) == 1
+       dev_rnd_seq(i).name(1) = d_f(i);
+    elseif dev_rnd_seq(i).name(2) == 1  
+       dev_rnd_seq(i).name(2) = d_f(i);
+    elseif dev_rnd_seq(i).name(3) == 1  
+       dev_rnd_seq(i).name(3) = d_f(i);
+    elseif dev_rnd_seq(i).name(4) == 1  
+       dev_rnd_seq(i).name(4) = d_f(i);
+    elseif dev_rnd_seq(i).name(5) == 1  
+       dev_rnd_seq(i).name(5) = d_f(i);
     end
 end
+
+for i =1:60
+    if dev_rnd_seq(i).name(1) == 2
+       dev_rnd_seq(i).name(1) = d_l(i);
+    elseif dev_rnd_seq(i).name(2) == 2  
+       dev_rnd_seq(i).name(2) = d_l(i);
+    elseif dev_rnd_seq(i).name(3) == 2  
+       dev_rnd_seq(i).name(3) = d_l(i);
+    elseif dev_rnd_seq(i).name(4) == 2  
+       dev_rnd_seq(i).name(4) = d_l(i);
+    elseif dev_rnd_seq(i).name(5) == 2  
+       dev_rnd_seq(i).name(5) = d_l(i);
+    end
+end
+
+for i =1:60 
+    if dev_rnd_seq(i).name(1) == 3
+       dev_rnd_seq(i).name(1) = d_lo(i);
+    elseif dev_rnd_seq(i).name(2) == 3  
+       dev_rnd_seq(i).name(2) = d_lo(i);
+    elseif dev_rnd_seq(i).name(3) == 3  
+       dev_rnd_seq(i).name(3) = d_lo(i);
+    elseif dev_rnd_seq(i).name(4) == 3  
+       dev_rnd_seq(i).name(4) = d_lo(i);
+    elseif dev_rnd_seq(i).name(5) == 3  
+       dev_rnd_seq(i).name(5) = d_lo(i);
+    end
+end
+
+for i =1:60 
+    if dev_rnd_seq(i).name(1) == 4
+       dev_rnd_seq(i).name(1) = 17;
+    elseif dev_rnd_seq(i).name(2) == 4  
+       dev_rnd_seq(i).name(2) = 17;
+    elseif dev_rnd_seq(i).name(3) == 4  
+       dev_rnd_seq(i).name(3) = 17;
+    elseif dev_rnd_seq(i).name(4) == 4  
+       dev_rnd_seq(i).name(4) = 17;
+    elseif dev_rnd_seq(i).name(5) == 4  
+       dev_rnd_seq(i).name(5) = 17;
+    end
+end
+
+for i =1:60 
+    if dev_rnd_seq(i).name(1) == 4
+       dev_rnd_seq(i).name(1) = 17;
+    elseif dev_rnd_seq(i).name(2) == 4  
+       dev_rnd_seq(i).name(2) = 17;
+    elseif dev_rnd_seq(i).name(3) == 4  
+       dev_rnd_seq(i).name(3) = 17;
+    elseif dev_rnd_seq(i).name(4) == 4  
+       dev_rnd_seq(i).name(4) = 17;
+    elseif dev_rnd_seq(i).name(5) == 4  
+       dev_rnd_seq(i).name(5) = 17;
+    end
+end
+
+for i =1:60 
+    if dev_rnd_seq(i).name(1) == 5
+       dev_rnd_seq(i).name(1) = 18;
+    elseif dev_rnd_seq(i).name(2) == 5  
+       dev_rnd_seq(i).name(2) = 18;
+    elseif dev_rnd_seq(i).name(3) == 5 
+       dev_rnd_seq(i).name(3) = 18;
+    elseif dev_rnd_seq(i).name(4) == 5  
+       dev_rnd_seq(i).name(4) = 18;
+    elseif dev_rnd_seq(i).name(5) == 5
+       dev_rnd_seq(i).name(5) = 18;
+    end
+end
+
+%% weave in standards, create final stim blocks
+%just go for pairs s-d in the actual experiment block
+
+for i = 1:60
+   
+    dev_rnd_seq(i).name = [10 dev_rnd_seq(i).name(1) 10 dev_rnd_seq(i).name(2) ...
+                           10 dev_rnd_seq(i).name(3) 10 dev_rnd_seq(i).name(4)...
+                           10 dev_rnd_seq(i).name(5)];
+end
+
+
+%%
+%% EXPERIMENT
+
+%prep
+
+% texts = [];
+% texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
+
+% BLOCK 1, 1000 Hz
+%randomize blocks!
+
+WaitSecs(1);
+
+
+% standard trail, 15 reps
+% byte10 = 10;
+
+for i = 1:15
+        ptb.prepare_audio(s_1000_st_10, 0.5, true);
+        ptb.schedule_audio;
+        ptb.play_without_flip;
+        %outp(address,byte10)
+end
+
+% main trail, 600 reps
+
+for i = 1:10
+    for j = 1:5
+        
+        if dev_rnd_seq(i).name(j) == 10
+            ptb.prepare_audio(s_1000_st_10, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 11
+            ptb.prepare_audio(s_1000_freq_up_11, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 12
+            ptb.prepare_audio(s_1000_freq_down_12, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 13
+            ptb.prepare_audio(s_1000_loud_up_13, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 14
+            ptb.prepare_audio(s_1000_loud_dwn_14, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 15
+            ptb.prepare_audio(s_1000_loc_l_15, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10)
+        elseif dev_rnd_seq(i).name(j) == 16
+            ptb.prepare_audio(s_1000_loc_r_16, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        elseif dev_rnd_seq(i).name(j) == 17
+            ptb.prepare_audio(s_1000_dur_17, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) $
+        elseif dev_rnd_seq(i).name(j) == 18
+            ptb.prepare_audio(s_1000_gap_18, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            %outp(address,byte10) 
+        end
+    end 
+end
+
+%% dumpsite   
+
+switch currentStim.name()
+       case 11
+           currentAudio = s_1000_freq_up_11;
+           trig = 11;
+       case 12
+           currentAudio = s_1000_freq_down_12;
+           trig = 12;
+       case 13
+           currentAudio = s_1000_loud_up_13;
+           trig = 13;
+       case 14
+           currentAudio = s_1000_loud_dwn_14;
+           trig = 14;
+       case 15
+           currentAudio = s_1000_loc_l_15;
+           trig = 15;
+       case 16
+           currentAudio = s_1000_loc_r_16;
+           trig = 16;
+       case 17
+           currentAudio = s_1000_dur_17;
+           trig = 17;
+       case 18 
+           currentAudio = s_1000_gap_18;
+           trig = 18;
+       otherwise
+           currentAudio = s_1000_st_10;
+           trig = 10;
+end
+
