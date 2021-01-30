@@ -4,9 +4,11 @@
 % Author: Patrick Neff, Ph.D., 
 % University of Salzburg/Zurich
 % email address: schlaukeit@gmail.com  
-% Website: 
+% Website: oink.doink
 % December 2020; Last revision: 18-Jan-2021
 
+
+%% PREP, INIT
 %% clear, init
 
 clear all global 
@@ -24,7 +26,7 @@ addpath('/Users/shanti/Documents/Fork/o_ptb') % change this to where o_ptb is on
 o_ptb.init_ptb('/Users/shanti/Documents/GitHub/Psychtoolbox-3/Psychtoolbox/') % change this to where o_ptb is on your system
 
 
-%% config + instance o_ptb,
+%% config + instance o_ptb
 
 ptb_cfg = o_ptb.PTB_Config();
 
@@ -38,7 +40,7 @@ ptb_cfg.psychportaudio_config.device = 1;
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
 
-%% init systems
+%% init ((sub)systems
 
 % ptb_cfg.internal_config.final_resolution = [800 600];
 % ptb_cfg.internal_config.use_decorated_window = true;
@@ -47,15 +49,31 @@ ptb = o_ptb.PTB.get_instance(ptb_cfg);
 ptb.setup_audio;
 ptb.setup_trigger;
 
+
+%% setup PTB vanilla triggers
+
+config_io;
+
+ioObj = io64;
+
+status = io64(ioObj);
+
+% if status = 0, you are now ready to write and read to a hardware port
+address = hex2dec('d010');          %standard LPT1 output port address
+data_out=1; 
+
+
+%% STIMULI 
 %% get tinnitus frequency
 
 tf      = inputdlg('Individuelle Tinnitusfrequenz:',...
                    'Bitte eingeben',[1 50]);
 tin_freq = str2num(tf{:});  
 
+
 %% get sensation levels
 
-prompt = {'Sensation level 1000 Hz:','Sensation level 5000 Hz:','Sensation level Tinnitus:'};
+prompt = {'Sensation level 1000 Hz:','Sensation level Tinnitus:'};
 dlg_title = 'Input';
 num_lines = 1;
 answer = inputdlg(prompt,dlg_title,num_lines);
@@ -63,7 +81,6 @@ answer = inputdlg(prompt,dlg_title,num_lines);
 sl_all = answer;
 
 sl_1000 = str2num(answer{1});
-sl_5000 = str2num(answer{2});
 sl_tin = str2num(answer{3});
 
 
@@ -72,7 +89,6 @@ sl_tin = str2num(answer{3});
 %also careful with one shot scripting, redo var names
 %for smooth code, create a class and maybe package - or use proper instance
 %copy with matlab.mixin.Copyable / copy()
-%ramp 1 ms ok?
 
 % constants
 f_1000 = 1000; %maybe obsolete...
@@ -150,39 +166,7 @@ s_1000_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
 s_1000_gap_18.db = std_db;
 
 
-
-%make frequency specific stimuli bundles for the experimental blocks
-
-b_1000 = who('s_1000*');
-
-b_1000 = [s_1000_st_10,s_1000_freq_up_11,s_1000_freq_down_12,s_1000_loud_up_13, s_1000_loud_dwn_14,s_1000_loc_l_15,s_1000_loc_r_16,s_1000_dur_17];
-
-%% trigger/audio test
-
-for i = 1:length(b_1000)
-ptb.prepare_audio(b_1000(i), 0.5, true);
-ptb.schedule_audio;
-ptb.play_without_flip;
-
-end
-
-
-%% Setup PTB vanilla triggers
-
-config_io;
-
-ioObj = io64;
-
-status = io64(ioObj);
-
-%
-% if status = 0, you are now ready to write and read to a hardware port
-% let's try sending the value=1 to the parallel printer's output port (LPT1)
-address = hex2dec('d010');          %standard LPT1 output port address
-data_out=1; 
-
-
-%% main block, rndm
+%% main block, pseudo random sequence init
 
 % init rndm dev seq
 dev_rnd = [1 2 3 4 5];
@@ -190,7 +174,7 @@ rng('shuffle');     % reset the time of the computer to create real randomisatio
 dev_rnd_seq = [];
 
 
-%% single dev blocks, full rndm and no neighbors, dichotomous devs with half probability
+%% single dev blocks, full rndm and no neighbors, dichotomous devs with 1/2 probability
 
 for i = 1:60
     dev_rnd_seq(i).name = randperm(length(dev_rnd));
@@ -213,12 +197,12 @@ end
 
 %% sub deviants
 
+% init list
 M=1;
 N=60;
 
 % frq
 d_f = (mod( reshape(randperm(M*N), M, N), 2 ))';
-
 
 for i = 1:numel(d_f)
     if d_f(i) == 0
@@ -339,7 +323,6 @@ for i =1:60
 end
 
 %% weave in standards, create final stim blocks
-%just go for pairs s-d in the actual experiment block
 
 for i = 1:60
    
@@ -352,18 +335,19 @@ end
 %%
 %% EXPERIMENT
 
-%prep
+%prep, screen needed? instructions?
 
 % texts = [];
 % texts.question_text = o_ptb.stimuli.visual.Text('Instruktion durch die Versuchsleiter*In \n \n Weiter mit der Leertaste');
 
 % BLOCK 1, 1000 Hz
-%randomize blocks!
+%randomize blocks 1000 vs tin., interleaving no neighbours?
 
 WaitSecs(1);
 
 
-% standard trail, 15 reps
+% standard trail, 15 reps - test for gap (tic, toc functions)
+
 % byte10 = 10;
 
 for i = 1:15
@@ -427,35 +411,26 @@ for i = 1:10
     end 
 end
 
-%% dumpsite   
 
-switch currentStim.name()
-       case 11
-           currentAudio = s_1000_freq_up_11;
-           trig = 11;
-       case 12
-           currentAudio = s_1000_freq_down_12;
-           trig = 12;
-       case 13
-           currentAudio = s_1000_loud_up_13;
-           trig = 13;
-       case 14
-           currentAudio = s_1000_loud_dwn_14;
-           trig = 14;
-       case 15
-           currentAudio = s_1000_loc_l_15;
-           trig = 15;
-       case 16
-           currentAudio = s_1000_loc_r_16;
-           trig = 16;
-       case 17
-           currentAudio = s_1000_dur_17;
-           trig = 17;
-       case 18 
-           currentAudio = s_1000_gap_18;
-           trig = 18;
-       otherwise
-           currentAudio = s_1000_st_10;
-           trig = 10;
-end
+
+%% addendum
+%%%%%%%%%%%%
+
+%% spectrogram, waveforms of stimuli
+
+% wav_plots = who('s_1000*');
+% 
+% for i = 1:9
+% wav_plots{i}.plot_waveform;
+% end
+
+s_1000_st_10.plot_waveform
+s_1000_freq_up_11.plot_waveform
+s_1000_freq_down_12.plot_waveform
+s_1000_loud_up_13.plot_waveform
+s_1000_loud_dwn_14.plot_waveform
+s_1000_loc_l_15.plot_waveform
+s_1000_loc_r_16.plot_waveform
+s_1000_dur_17.plot_waveform
+s_1000_gap_18.plot_waveform
 
