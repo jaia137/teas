@@ -35,7 +35,7 @@ ptb_cfg.window_scale = 0.2;
 ptb_cfg.skip_sync_test = true;
 ptb_cfg.hide_mouse = false;
 % ptb_cfg.psychportaudio_config.freq = 44100;
-ptb_cfg.psychportaudio_config.device = 1;
+ptb_cfg.psychportaudio_config.device = 3;
 
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
@@ -81,7 +81,7 @@ answer = inputdlg(prompt,dlg_title,num_lines);
 sl_all = answer;
 
 sl_1000 = str2num(answer{1});
-sl_tin = str2num(answer{3});
+sl_tin = str2num(answer{2});
 
 
 %% create stimuli, standard and deviants
