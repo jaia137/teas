@@ -1,6 +1,6 @@
 %% TRNS NOISE SCRIPT
 
-Fs = 32000;                        % sampling frequency (Hz)
+Fs = 16000;                        % sampling frequency (Hz)
 d = 10.0;                         % <-----------------duration
 n = Fs * d;                        % number of samples
 
@@ -28,6 +28,6 @@ wave = 0.001*(bandpass);
 %% write to text
 
 fileID = fopen('exp.txt','w');
-fprintf(fileID,'%.12d\n',wave);
+fprintf(fileID,'%.6d\n',wave);
 fclose(fileID);
 
