@@ -4,6 +4,8 @@ Fs = 16000;                        % sampling frequency (Hz)
 d = 10.0;                         % <-----------------duration
 n = Fs * d;                        % number of samples
 
+
+
 %  carrier white
 
 rand('state',sum(100 * clock));    % initialize random seed
