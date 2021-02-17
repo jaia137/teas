@@ -10,8 +10,9 @@ erl_crash.dump
 .elixir_ls/
 
 
+*.-.DS_Store
 
-*DS_Store
+*.DS_Store
 #matlab generated files
 # Windows default autosave extension
 *.asv
