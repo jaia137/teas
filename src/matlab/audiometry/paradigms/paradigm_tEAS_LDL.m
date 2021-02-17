@@ -25,6 +25,7 @@ stimulusParameters.targetPhase='sin';
 %stimulusParameters.targetFrequency=[500 1000 2000 4000];
 stimulusParameters.targetDuration=0.5;
 stimulusParameters.targetLevel=stimulusParameters.WRVstartValues(1);
+stimulusParameters.includeCue=0;  
 
 stimulusParameters.instructions{1}= ['Ist der Ton ''angenehm'', ''laut'' or ''unangenehm''?'];
 %   single interval up/down with cue

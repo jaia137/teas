@@ -15,14 +15,17 @@ betweenRuns.variableName1='maskerRelativeFrequency';
 betweenRuns.variableList1=[1       0.5       1.6   .9 .7   1.1 1.3      ];
 betweenRuns.variableName2='targetFrequency';
 % keep old list of target frequencies
-betweenRuns.variableList2=[1000 5000 7000];
+betweenRuns.variableList2=[1000];
 
 experiment.maskerInUse=1;
+
 stimulusParameters.maskerType='tone';
 stimulusParameters.maskerPhase='sin';
 stimulusParameters.maskerDuration=0.108;
 stimulusParameters.maskerLevel=stimulusParameters.WRVstartValues(1);
 stimulusParameters.maskerRelativeFrequency=betweenRuns.variableList1;
+stimulusParameters.includeCue=0;  
+stimulusParameters.targetLevel=30;
 
 stimulusParameters.gapDuration=0.01;
 

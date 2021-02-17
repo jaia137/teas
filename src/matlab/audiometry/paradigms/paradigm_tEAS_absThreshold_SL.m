@@ -1,4 +1,4 @@
-function paradigm_tEAS_absThreshold_train(handles)
+function paradigm_tEAS_absThreshold_SL(handles)
 global stimulusParameters experiment betweenRuns
 
 paradigmBase(handles) % default
@@ -6,16 +6,19 @@ paradigmBase(handles) % default
 betweenRuns.variableName1='targetFrequency';
 betweenRuns.variableList1= 1000 ;
 betweenRuns.variableName2='targetDuration';
-betweenRuns.variableList2= 0.25;
+betweenRuns.variableList2= 0.075;
 
 experiment.maskerInUse=0;
 experiment.singleIntervalMaxTrials=[16];
+experiment.ear = 'diotic';
+experiment.useCalibrationFile=0;
 
 
 stimulusParameters.targetFrequency=betweenRuns.variableList1;
 stimulusParameters.targetDuration=betweenRuns.variableList2;
 stimulusParameters.targetLevel=stimulusParameters.WRVstartValues(1);
 stimulusParameters.includeCue=0;  
+
 
 stimulusParameters.WRVstartValues=30;
 

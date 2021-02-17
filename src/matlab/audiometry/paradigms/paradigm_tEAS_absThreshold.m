@@ -15,6 +15,7 @@ experiment.singleIntervalMaxTrials=[16];
 stimulusParameters.targetFrequency=betweenRuns.variableList1;
 stimulusParameters.targetDuration=betweenRuns.variableList2;
 stimulusParameters.targetLevel=stimulusParameters.WRVstartValues(1);
+stimulusParameters.includeCue=0;  
 
 stimulusParameters.WRVstartValues=30;
 
