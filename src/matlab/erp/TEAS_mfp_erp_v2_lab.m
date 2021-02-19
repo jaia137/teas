@@ -18,6 +18,8 @@ restoredefaultpath
 
 addpath('C:\Program Files\MATLAB\R2016b\toolbox\o_ptb-master\') % change this to where o_ptb is on your system
 
+addpath('C:\toolbox\Psychtoolbox\')
+
 addpath('C:\Program Files\MATLAB\R2016b\toolbox\io\')
 
 %% initialize PTB
