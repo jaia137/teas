@@ -538,7 +538,7 @@ dev_rnd_seq_1000 = dev_rnd_seq;
 %% EXPERIMENT
 %prep, screen needed? instructions?
 
-WaitSecs(1);
+WaitSecs(10);
 
 % set isi
 isi = 0.5;
@@ -566,7 +566,7 @@ for i = 1:15
         outp(address,0);
 end 
 
-for i = 1:2
+for i = 1:60
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_1000(i).name(j) == 10
             ptb.prepare_audio(s_1000_st_10, isi, true)
@@ -635,7 +635,7 @@ for i = 1:2
     end 
 end
 
-WaitSecs(3);
+WaitSecs(15);
 
 end
 
@@ -659,7 +659,7 @@ for i = 1:15
         outp(address,0);
 end 
 
-for i = 1:2
+for i = 1:60
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_tin(i).name(j) == 10 
             ptb.prepare_audio(s_tin_st_10, isi, true)
@@ -728,7 +728,7 @@ for i = 1:2
     end 
 end
 
-WaitSecs(3);
+WaitSecs(15);
 
 end
 
