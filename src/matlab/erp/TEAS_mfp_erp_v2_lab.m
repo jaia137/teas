@@ -554,6 +554,22 @@ end
 % main trail, 615 reps
 
 while(1)
+    
+for i = 1:15
+        ptb.prepare_audio(s_1000_st_10, isi, true);
+        ptb.schedule_audio;
+        ptb.play_without_flip;
+        outp(address,trigs(1))
+        WaitSecs(0.0009765625);
+        outp(address,0);
+end 
+
+choice = menu('Press Yes to START or question the meaning of life...','Yes');
+if choice==1
+   disp('lezze go!');
+end
+
+WaitSecs(3);
 
 for h = 1:3
 
@@ -639,11 +655,12 @@ WaitSecs(15);
 
 end
 
-choice = menu('Press Yes or question the meaning of life...','Yes');
+choice = menu('Press Yes to CONTINUE or question the meaning of life...','Yes');
 if choice==1
    disp('lezze go!');
 end
 
+WaitSecs(3);
 
 % TINNITUS FREQ
 % main trail, 600 reps
