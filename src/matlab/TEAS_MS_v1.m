@@ -9,6 +9,7 @@ ERP_path = 'E:\TEAS\_git\teas\src\matlab\erp';
 
 addpath(genpath('C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46'));
 
+addpath(genpath('E:\TEAS\_git\teas\src\matlab'));
 
 %% MultiThreshold Session 1
 

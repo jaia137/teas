@@ -5,11 +5,11 @@
 % University of Zurich
 % email address: schlaukeit@gmail.com  
 % Website: 
-% December 2020; Last revision: 12-Jan-2021
+% December 2020; Last revision: 18-Feb-2021
 
 %% clear, init
 
-clear all global 
+%clear all global 
 
 restoredefaultpath
 
@@ -69,21 +69,6 @@ io64(ioObj,address,data_out);   %output command
 % when finished with the io64 object it can be discarded via
 % 'clear all', 'clear mex', 'clear io64' or 'clear functions' command.
 
-%%
-
-config_io;
-% optional step: verify that the inpoutx64 driver was successfully initialized
-global cogent;
-if( cogent.io.status ~= 0 )
-   error('inp/outp installation failed');
-end
-% write a value to the default LPT1 printer output port (at 0x378)
-address = hex2dec('d010');
-byte = 'B';
-outp(address,byte);
-% read back the value written to the printer port above
-datum=inp(address);
-
 %% STIMULI 
 %% get tinnitus frequency
 
@@ -116,7 +101,7 @@ f_1000 = 1000; %maybe obsolete...
 
 f_5000 = 5000;
 dur = 0.075; %stimulus duration
-std_db = -100+sl_1000+65; %standard SL + 60dB
+std_db = -107+sl_1000+65; %standard SL + 60dB
 rmp = 0.005; %standard ramp
 
 % 1000
@@ -650,19 +635,17 @@ for i = 1:2
     end 
 end
 
-WaitSecs(1);
+WaitSecs(3);
 
 end
 
-choice = menu('Press yes no','Yes','No');
-if choice==2 | choice==0
-   break;
+choice = menu('Press Yes or question the meaning of life...','Yes');
+if choice==1
+   disp('lezze go!');
 end
 
-disp('oink')
 
-end
-%% TINNITUS FREQ
+% TINNITUS FREQ
 % main trail, 600 reps
 
 for h = 1:3
@@ -676,7 +659,7 @@ for i = 1:15
         outp(address,0);
 end 
 
-for i = 1:60
+for i = 1:2
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_tin(i).name(j) == 10 
             ptb.prepare_audio(s_tin_st_10, isi, true)
@@ -745,7 +728,14 @@ for i = 1:60
     end 
 end
 
-WaitSecs(15);
+WaitSecs(3);
+
+end
+
+disp('Done for today!');
+break
+
+
 
 end
 
@@ -760,12 +750,12 @@ end
 % wav_plots{i}.plot_waveform;
 % end
 
-s_1000_st_10.plot_waveform
-s_1000_freq_up_11.plot_waveform
-s_1000_freq_down_12.plot_waveform
-s_1000_loud_up_13.plot_waveform
-s_1000_loud_dwn_14.plot_waveform
-s_1000_loc_l_15.plot_waveform
-s_1000_loc_r_16.plot_waveform
-s_1000_dur_17.plot_waveform
-s_1000_gap_18.plot_waveform
+% s_1000_st_10.plot_waveform
+% s_1000_freq_up_11.plot_waveform
+% s_1000_freq_down_12.plot_waveform
+% s_1000_loud_up_13.plot_waveform
+% s_1000_loud_dwn_14.plot_waveform
+% s_1000_loc_l_15.plot_waveform
+% s_1000_loc_r_16.plot_waveform
+% s_1000_dur_17.plot_waveform
+% s_1000_gap_18.plot_waveform
