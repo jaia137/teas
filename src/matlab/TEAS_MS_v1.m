@@ -30,7 +30,7 @@ run('USZmultiThreshold.m');
 % in general:
 % use over ear headphones
 % pick paradigms in study order...
-% enter study code_visit_test etc.
+% enter study code_visit_ etc.
 % choose ear
 % run paradigm
 %
@@ -48,11 +48,11 @@ run('USZmultiThreshold.m');
 
 % specific:
 % pick tEAS_LDL, instruct patient, run, save, for both ears
-% pick tEAS_IFMC, enter target level 30 (or more), enter PTA frequency closest to tinnitus pitch besides 1000 (will be fixed), instruct patient, run one trial, check if clear, run the whole paradigm, save, for both ears
+% pick tEAS_IFMC, enter target level 30 (or more, add hearing loss at frequency), enter PTA frequency closest to tinnitus pitch besides 1000 (will be fixed), instruct patient, run one trial, check if clear, run the whole paradigm, save, for both ears
 % pick tEAS_forwardMasking, enter PTA frequency closest to tinnitus pitch besides 1000 (will be fixed), instruct patient, run one trial, check if clear, run the whole paradigm, save, for both ears
 % 
-% change to in-ear headphones
-% pick tEAS_IFMC, choose no calibration file, choose diotic, enter tinnitus pitch, instruct patient, run, note SL values for both frequencies, save
+% !!!!!!!!!!!!!!!!!!!!!!change to in-ear headphones!!!!!!!!!!!!!!!!!!!!!!!
+% pick tEAS_SL, choose no calibration file, choose diotic, enter tinnitus pitch, instruct patient ("basically the same as PTA"), run, note SL values for both frequencies, save
 
 
 %% ERP 
