@@ -747,7 +747,7 @@ for i = 1:60
     end 
 end
 
-WaitSecs(15);
+WaitSecs(10);
 
 end
 
@@ -841,7 +841,7 @@ for i = 1:60
     end 
 end
 
-WaitSecs(15);
+WaitSecs(10);
 
 end 
 
