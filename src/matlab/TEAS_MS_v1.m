@@ -59,7 +59,7 @@ run('USZmultiThreshold.m');
 
 cd(ERP_path);
 
-open('TEAS_mfp_erp_v2_lab.m');
+open('TEAS_mfp_erp_v3_lab.m');
 
 % run script and follow instructions, close when done
 

@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 8.0, 51.0, 912.0, 1021.0 ],
+		"rect" : [ 107.0, 51.0, 912.0, 1021.0 ],
 		"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"bglocked" : 0,
@@ -39,6 +39,20 @@
 		"style" : "default",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-47",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 239.0, 563.0, 150.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 243.375, 607.0, 150.0, 20.0 ],
+					"style" : "",
+					"text" : "2) set side"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-113",
 					"maxclass" : "toggle",
@@ -148,7 +162,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 37.0, 921.0, 42.0, 20.0 ],
 					"style" : "",
-					"text" : "2) GO"
+					"text" : "3) GO"
 				}
 
 			}
@@ -160,7 +174,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 131.0, 623.0, 150.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 37.0, 662.0, 101.0, 20.0 ],
+					"presentation_rect" : [ 37.0, 785.5, 101.0, 20.0 ],
 					"style" : "",
 					"text" : "1) set loudness"
 				}
@@ -175,8 +189,6 @@
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 552.0, 835.0, 50.0, 22.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 145.0, 662.0, 50.0, 22.0 ],
 					"style" : ""
 				}
 
@@ -219,7 +231,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 145.0, 690.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "84"
+					"text" : "56"
 				}
 
 			}
@@ -230,9 +242,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 455.0, 918.0, 41.0, 22.0 ],
+					"patching_rect" : [ 455.0, 918.0, 34.0, 22.0 ],
 					"style" : "",
-					"text" : "+ 105"
+					"text" : "+ 85"
 				}
 
 			}
@@ -243,9 +255,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 347.0, 890.0, 64.0, 22.0 ],
+					"patching_rect" : [ 347.0, 890.0, 70.0, 22.0 ],
 					"style" : "",
-					"text" : "-21."
+					"text" : "-29.251804"
 				}
 
 			}
@@ -1733,9 +1745,9 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 53.25, 686.0, 113.0, 22.0 ],
+					"patching_rect" : [ 53.25, 686.0, 103.0, 22.0 ],
 					"style" : "",
-					"text" : "scale 0 127 -71 -20"
+					"text" : "scale 0 127 -71 0"
 				}
 
 			}
@@ -1842,7 +1854,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-101",
@@ -4605,15 +4616,6 @@
 						"styles" : [ 							{
 								"name" : "jasch_new",
 								"default" : 								{
-									"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
-									"fontsize" : [ 10.0 ],
-									"fontname" : [ "Verdana" ],
-									"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
-									"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
-									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
-									"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-									"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
 									"bgfillcolor" : 									{
 										"type" : "gradient",
 										"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -4624,6 +4626,15 @@
 										"autogradient" : 0
 									}
 ,
+									"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
+									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
+									"fontsize" : [ 10.0 ],
+									"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
+									"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+									"fontname" : [ "Verdana" ],
+									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
+									"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
+									"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
 									"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 								}
 ,
@@ -5726,15 +5737,6 @@
 		"styles" : [ 			{
 				"name" : "jasch_new",
 				"default" : 				{
-					"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
-					"fontsize" : [ 10.0 ],
-					"fontname" : [ "Verdana" ],
-					"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
-					"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
-					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
-					"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-					"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
 					"bgfillcolor" : 					{
 						"type" : "gradient",
 						"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -5745,6 +5747,15 @@
 						"autogradient" : 0
 					}
 ,
+					"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
+					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
+					"fontsize" : [ 10.0 ],
+					"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+					"fontname" : [ "Verdana" ],
+					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
+					"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
+					"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
 					"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 				}
 ,

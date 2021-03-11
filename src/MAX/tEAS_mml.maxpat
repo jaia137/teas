@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 4.0, 42.0, 1108.0, 988.0 ],
+		"rect" : [ 8.0, 51.0, 1108.0, 988.0 ],
 		"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"bglocked" : 0,
@@ -76,7 +76,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 243.375, 841.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "35"
+					"text" : "65"
 				}
 
 			}
@@ -87,22 +87,23 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 455.0, 918.0, 41.0, 22.0 ],
+					"patching_rect" : [ 455.0, 918.0, 34.0, 22.0 ],
 					"style" : "",
-					"text" : "+ 105"
+					"text" : "+ 85"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-19",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 347.0, 890.0, 50.0, 22.0 ],
+					"patching_rect" : [ 347.0, 890.0, 28.0, 36.0 ],
 					"style" : "",
-					"text" : "-70."
+					"text" : "-20."
 				}
 
 			}
@@ -127,7 +128,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 306.0, 615.0, 150.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 243.375, 637.0, 35.0, 20.0 ],
+					"presentation_rect" : [ 243.375, 637.0, 43.0, 20.0 ],
 					"style" : "",
 					"text" : "right\n"
 				}
@@ -141,7 +142,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 291.0, 600.0, 150.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 330.0, 637.0, 27.0, 20.0 ],
+					"presentation_rect" : [ 330.0, 637.0, 36.0, 20.0 ],
 					"style" : "",
 					"text" : "left\n"
 				}
@@ -1482,9 +1483,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 126.0, 985.0, 36.0, 22.0 ],
+					"patching_rect" : [ 126.0, 985.0, 49.0, 22.0 ],
 					"style" : "",
-					"text" : "*~ 1."
+					"text" : "*~ 0.79"
 				}
 
 			}
@@ -1495,9 +1496,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 162.75, 985.0, 36.0, 22.0 ],
+					"patching_rect" : [ 162.75, 985.0, 49.0, 22.0 ],
 					"style" : "",
-					"text" : "*~ 1."
+					"text" : "*~ 0.79"
 				}
 
 			}
@@ -1590,9 +1591,9 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 53.25, 686.0, 113.0, 22.0 ],
+					"patching_rect" : [ 53.25, 686.0, 103.0, 22.0 ],
 					"style" : "",
-					"text" : "scale 0 127 -71 -20"
+					"text" : "scale 0 127 -71 0"
 				}
 
 			}
@@ -2401,7 +2402,7 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-5",
-									"items" : [ "Babyface Midi Port 1", ",", "Automap MIDI", ",", "Automap Propellerhead", ",", "Automap Propellerhead Mixer" ],
+									"items" : [ "Babyface Midi Port 1", ",", "Automap MIDI", ",", "Automap Propellerhead Mixer", ",", "Automap Propellerhead" ],
 									"maxclass" : "umenu",
 									"numinlets" : 1,
 									"numoutlets" : 3,
@@ -4462,16 +4463,6 @@
 						"styles" : [ 							{
 								"name" : "jasch_new",
 								"default" : 								{
-									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
-									"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-									"fontsize" : [ 10.0 ],
-									"fontname" : [ "Verdana" ],
-									"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
-									"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
-									"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-									"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
-									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
-									"color" : [ 1.0, 0.498039, 0.0, 1.0 ],
 									"bgfillcolor" : 									{
 										"type" : "gradient",
 										"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -4481,7 +4472,17 @@
 										"proportion" : 0.39,
 										"autogradient" : 0
 									}
-
+,
+									"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
+									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
+									"fontsize" : [ 10.0 ],
+									"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
+									"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+									"fontname" : [ "Verdana" ],
+									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
+									"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
+									"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
+									"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 								}
 ,
 								"parentstyle" : "",
@@ -5492,16 +5493,6 @@
 		"styles" : [ 			{
 				"name" : "jasch_new",
 				"default" : 				{
-					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
-					"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-					"fontsize" : [ 10.0 ],
-					"fontname" : [ "Verdana" ],
-					"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
-					"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
-					"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-					"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
-					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
-					"color" : [ 1.0, 0.498039, 0.0, 1.0 ],
 					"bgfillcolor" : 					{
 						"type" : "gradient",
 						"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -5511,7 +5502,17 @@
 						"proportion" : 0.39,
 						"autogradient" : 0
 					}
-
+,
+					"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
+					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
+					"fontsize" : [ 10.0 ],
+					"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+					"fontname" : [ "Verdana" ],
+					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
+					"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
+					"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
+					"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 				}
 ,
 				"parentstyle" : "",
