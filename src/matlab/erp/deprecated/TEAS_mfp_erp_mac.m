@@ -35,7 +35,7 @@ ptb_cfg.window_scale = 0.2;
 ptb_cfg.skip_sync_test = true;
 ptb_cfg.hide_mouse = false;
 % ptb_cfg.psychportaudio_config.freq = 44100;
-ptb_cfg.psychportaudio_config.device = 1;
+ptb_cfg.psychportaudio_config.device = 1;  % <- careful with this one, check for correct output, adjust samp frq 
 
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
@@ -73,14 +73,14 @@ tin_freq = str2num(tf{:});
 
 %% get sensation levels
 
-prompt = {'Sensation level 1000 Hz:','Sensation level Tinnitus:'};
+prompt = {'Sensation level 500 Hz:','Sensation level Tinnitus:'};
 dlg_title = 'Input';
 num_lines = 1;
 answer = inputdlg(prompt,dlg_title,num_lines);
 
 sl_all = answer;
 
-sl_1000 = str2num(answer{1});
+sl_500 = str2num(answer{1});
 sl_tin = str2num(answer{2});
 
 
@@ -90,162 +90,19 @@ sl_tin = str2num(answer{2});
 %for smooth code, create a class and maybe package - or use proper instance
 %copy with matlab.mixin.Copyable / copy()
 
-% constants
-f_1000 = 1000; %maybe obsolete...
-
-f_5000 = 5000;
-dur = 0.075; %stimulus duration
-std_db = -107+sl_1000+65; %standard SL + 60dB
-rmp = 0.005; %standard ramp
-
-% 1000
-% standard
-s_1000_st_10 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_st_10.db = std_db; %check dynamic range
-s_1000_st_10.apply_cos_ramp(rmp);
-
-% freq
-s_1000_freq_up_11 = o_ptb.stimuli.auditory.Sine(f_1000+0.1*f_1000, dur);
-s_1000_freq_up_11.db = std_db;
-s_1000_freq_up_11.apply_cos_ramp(rmp);
-
-s_1000_freq_down_12 = o_ptb.stimuli.auditory.Sine(f_1000-0.1*f_1000, dur);
-s_1000_freq_down_12.db = std_db;
-s_1000_freq_down_12.apply_cos_ramp(rmp);
-
-% loudness
-s_1000_loud_up_13 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_up_13.db = std_db + 10;
-s_1000_loud_up_13.apply_cos_ramp(rmp);
-
-s_1000_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_dwn_14.db = std_db - 10;
-s_1000_loud_dwn_14.apply_cos_ramp(rmp);
-
-%location 
-s_1000_loc_l_15 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_l_15.angle = -pi/2;
-s_1000_loc_l_15.db = std_db; 
-s_1000_loc_l_15.apply_cos_ramp(rmp);
-
-s_1000_loc_r_16 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_r_16.angle = pi/2;
-s_1000_loc_r_16.db = std_db; 
-s_1000_loc_r_16.apply_cos_ramp(rmp);
-
-%duration
-s_1000_dur_17 = o_ptb.stimuli.auditory.Sine(1000, dur-0.05);
-s_1000_dur_17.db = std_db;
-s_1000_dur_17.apply_cos_ramp(rmp);
-
-% gap
-%ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
-%gap2=1543.5
-
-sr = 44100;
-amplitude = 1;
-t = floor(sr * 0.005);
-t2 = floor(sr * 0.001);
-
-r = 1 - cos(linspace(0, pi/2, t));
-ra = 1 - cos(linspace(pi/2, 0, t/5));
-r = [r, ones(1, 1279), ra];
-
-r_z = 1 - cos(linspace(pi/2, 0, t));
-rb = 1 - cos(linspace(0, pi/2, t/5));
-r_z = [rb, ones(1, 1279), r_z]; 
-
-
-gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*1000)) .* r;
-gap   = zeros(1,220)    ;
-gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*1000)) .* r_z;
-
-gap_x = [gap_1,gap,gap_2];
-
-s_1000_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
-s_1000_gap_18.db = std_db;
-
-% tin
-% standard
-s_tin_st_10 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
-s_tin_st_10.db = std_db; %check dynamic range
-s_tin_st_10.apply_cos_ramp(rmp);
-
-% freq
-s_tin_freq_up_11 = o_ptb.stimuli.auditory.Sine(tin_freq+0.1*tin_freq, dur);
-s_tin_freq_up_11.db = std_db;
-s_tin_freq_up_11.apply_cos_ramp(rmp);
-
-s_tin_freq_down_12 = o_ptb.stimuli.auditory.Sine(tin_freq-0.1*tin_freq, dur);
-s_tin_freq_down_12.db = std_db;
-s_tin_freq_down_12.apply_cos_ramp(rmp);
-
-% loudness
-s_tin_loud_up_13 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
-s_tin_loud_up_13.db = std_db + 10;
-s_tin_loud_up_13.apply_cos_ramp(rmp);
-
-s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
-s_tin_loud_dwn_14.db = std_db - 10;
-s_tin_loud_dwn_14.apply_cos_ramp(rmp);
-
-%location 
-s_tin_loc_l_15 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
-s_tin_loc_l_15.angle = -pi/2;
-s_tin_loc_l_15.db = std_db; 
-s_tin_loc_l_15.apply_cos_ramp(rmp);
-
-s_tin_loc_r_16 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
-s_tin_loc_r_16.angle = pi/2;
-s_tin_loc_r_16.db = std_db; 
-s_tin_loc_r_16.apply_cos_ramp(rmp);
-
-%duration
-s_tin_dur_17 = o_ptb.stimuli.auditory.Sine(tin_freq, dur-0.05);
-s_tin_dur_17.db = std_db;
-s_tin_dur_17.apply_cos_ramp(rmp);
-
-% gap
-%ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
-%gap2=1543.5
-
-sr = 44100;
-amplitude = 1;
-t = floor(sr * 0.005);
-t2 = floor(sr * 0.001);
-
-r = 1 - cos(linspace(0, pi/2, t));
-ra = 1 - cos(linspace(pi/2, 0, t/5));
-r = [r, ones(1, 1279), ra];
-
-r_z = 1 - cos(linspace(pi/2, 0, t));
-rb = 1 - cos(linspace(0, pi/2, t/5));
-r_z = [rb, ones(1, 1279), r_z]; 
-
-
-gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tin_freq)) .* r;
-gap   = zeros(1,220)    ;
-gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tin_freq)) .* r_z;
-
-gap_x = [gap_1,gap,gap_2];
-
-s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
-s_tin_gap_18.db = std_db;
-
-%% partials set
-
-% 500
 % params
-
+dur = 0.075; %stimulus duration
+std_db = -107+sl_500+65; %standard SL + 60dB
+rmp = 0.005; %standard ramp
 sr = 44100;
 amplitude = 1;
-amplitude_par1 = 0.7354  ;
+amplitude_par1 = 0.7354 ;
 amplitude_par2 = 0.4626 ;
 f0 = 500;
 f1 = 1000;
 f2 = 1500;
 
-
+% 500
 % standard
 s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*f0)) ;
 s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*f1)) ;
@@ -253,51 +110,221 @@ s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*f2)) ;
 
 sx = (s1+s2+s3)/3;
 
-s_1000_st_10 = o_ptb.stimuli.auditory.FromMatrix(sx, sr);
-s_1000_st_10.db = std_db;
-s_1000_st_10.apply_cos_ramp(rmp);
+s_500_st_10 = o_ptb.stimuli.auditory.FromMatrix(sx, sr);
+s_500_st_10.db = std_db;
+s_500_st_10.apply_cos_ramp(rmp);
 
 % freq
 % up
-s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*f0+(0.1*f0))) ;
-s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*f1+(0.1*f1))) ;
-s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*f2+(0.1*f2))) ;
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(f0+(0.1*f0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(f1+(0.1*f1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(f2+(0.1*f2)))) ;
 
 sx = (s1+s2+s3)/3;
 
+s_500_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_freq_up_11.db = std_db;
+s_500_freq_up_11.apply_cos_ramp(rmp);
+
+% down
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(f0-(0.1*f0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(f1-(0.1*f1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(f2-(0.1*f2)))) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_freq_down_12.db = std_db;
+s_500_freq_down_12.apply_cos_ramp(rmp);
+
+% loudness
+
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*f0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*f1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*f2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_loud_up_13.db = std_db + 10;
+s_500_loud_up_13.apply_cos_ramp(rmp);
+
+s_500_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_loud_dwn_14.db = std_db - 10;
+s_500_loud_dwn_14.apply_cos_ramp(rmp);
+
+%location 
+s_500_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
+s_500_loc_l_15.angle = -pi/2;
+s_500_loc_l_15.db = std_db; 
+s_500_loc_l_15.apply_cos_ramp(rmp);
+
+s_500_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
+s_500_loc_r_16.angle = pi/2;
+s_500_loc_r_16.db = std_db; 
+s_500_loc_r_16.apply_cos_ramp(rmp);
+
+%duration
+s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*f0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.025))/sr*f1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.025))/sr*f2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_dur_17 = o_ptb.stimuli.auditory.FromMatrix(sx,sr) ;
+s_500_dur_17.db = std_db;
+s_500_dur_17.apply_cos_ramp(rmp);
+
+
+% gap
+%ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
+%gap2=1543.5
+
+t = floor(sr * 0.005);
+t2 = floor(sr * 0.001);
+
+r = 1 - cos(linspace(0, pi/2, t));
+ra = 1 - cos(linspace(pi/2, 0, t/5));
+r = [r, ones(1, 1279), ra];
+
+r_z = 1 - cos(linspace(pi/2, 0, t));
+rb = 1 - cos(linspace(0, pi/2, t/5));
+r_z = [rb, ones(1, 1279), r_z]; 
+
+
+gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*f0)) .* r;
+gap_11 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*f1)) .* r;
+gap_12 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*f2)) .* r;
+
+gap_1 = ((gap_1 + gap_11 + gap_12) / 3);
+
+gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*f0)) .* r_z;
+gap_21 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*f1)) .* r_z;
+gap_22 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*f2)) .* r_z;
+
+gap_2 = ((gap_2 + gap_21 + gap_22) / 3);
+
+gap   = zeros(1,220)    ;
+
+gap_x = [gap_1,gap,gap_2];
+
+s_500_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
+s_500_gap_18.db = std_db;
+
+%%%%%%%%%%%%%%%
+% tin
+
+tinf0 = tin_freq   ;
+tinf1 = tin_freq*2 ;
+tinf2 = tin_freq*3 ;
+
+% standard
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_st_10 = o_ptb.stimuli.auditory.FromMatrix(sx, sr);
+s_tin_st_10.db = std_db;
+s_tin_st_10.apply_cos_ramp(rmp);
+
+% freq
+% up
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0+(0.1*tinf0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(tinf1+(0.1*tinf1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(tinf2+(0.1*tinf2)))) ;
+
+sx = (s1+s2+s3)/3;
 
 s_tin_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_freq_up_11.db = std_db;
 s_tin_freq_up_11.apply_cos_ramp(rmp);
 
-s_tin_freq_down_12 = o_ptb.stimuli.auditory.Sine(tin_freq-0.1*tin_freq, dur);
+% down
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0-(0.1*tinf0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(tinf1-(0.1*tinf1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(tinf2-(0.1*tinf2)))) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_freq_down_12.db = std_db;
 s_tin_freq_down_12.apply_cos_ramp(rmp);
 
 % loudness
-s_tin_loud_up_13 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
+
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_loud_up_13.db = std_db + 10;
 s_tin_loud_up_13.apply_cos_ramp(rmp);
 
-s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
+s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_loud_dwn_14.db = std_db - 10;
 s_tin_loud_dwn_14.apply_cos_ramp(rmp);
 
 %location 
-s_tin_loc_l_15 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
+s_tin_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
 s_tin_loc_l_15.angle = -pi/2;
 s_tin_loc_l_15.db = std_db; 
 s_tin_loc_l_15.apply_cos_ramp(rmp);
 
-s_tin_loc_r_16 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
+s_tin_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
 s_tin_loc_r_16.angle = pi/2;
 s_tin_loc_r_16.db = std_db; 
 s_tin_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
-s_tin_dur_17 = o_ptb.stimuli.auditory.Sine(tin_freq, dur-0.05);
+s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.025))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.025))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_dur_17 = o_ptb.stimuli.auditory.FromMatrix(sx,sr) ;
 s_tin_dur_17.db = std_db;
 s_tin_dur_17.apply_cos_ramp(rmp);
+
+
+% gap
+%ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
+%gap2=1543.5
+
+t = floor(sr * 0.005);
+t2 = floor(sr * 0.001);
+
+r = 1 - cos(linspace(0, pi/2, t));
+ra = 1 - cos(linspace(pi/2, 0, t/5));
+r = [r, ones(1, 1279), ra];
+
+r_z = 1 - cos(linspace(pi/2, 0, t));
+rb = 1 - cos(linspace(0, pi/2, t/5));
+r_z = [rb, ones(1, 1279), r_z]; 
+
+
+gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r;
+gap_11 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*tinf1)) .* r;
+gap_12 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*tinf2)) .* r;
+
+gap_1 = ((gap_1 + gap_11 + gap_12) / 3);
+
+gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r_z;
+gap_21 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*tinf1)) .* r_z;
+gap_22 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*tinf2)) .* r_z;
+
+gap_2 = ((gap_2 + gap_21 + gap_22) / 3);
+
+gap   = zeros(1,220)    ;
+
+gap_x = [gap_1,gap,gap_2];
+
+s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
+s_tin_gap_18.db = std_db;
 
 %% main block, pseudo random sequence init
 
@@ -484,7 +511,7 @@ WaitSecs(1);
 % byte10 = 10;
 
 for i = 1:15
-        ptb.prepare_audio(s_1000_st_10, 0.5, true);
+        ptb.prepare_audio(s_500_st_10, 0.5, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
         %outp(address,byte10)
@@ -496,7 +523,7 @@ for i = 1:10
     for j = 1:5
         
         if dev_rnd_seq(i).name(j) == 10
-            ptb.prepare_audio(s_1000_st_10, 0.5, true);
+            ptb.prepare_audio(s_500_st_10, 0.5, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             %outp(address,byte10) 
@@ -549,6 +576,10 @@ end
 %% addendum
 %%%%%%%%%%%%
 
+      ptb.prepare_audio(s_500_freq_up_11, 0.5, true);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+
 %% spectrogram, waveforms of stimuli
 
 % wav_plots = who('s_1000*');
@@ -557,7 +588,7 @@ end
 % wav_plots{i}.plot_waveform;
 % end
 
-s_1000_st_10.plot_waveform
+s_500_st_10.plot_waveform
 s_1000_freq_up_11.plot_waveform
 s_1000_freq_down_12.plot_waveform
 s_1000_loud_up_13.plot_waveform

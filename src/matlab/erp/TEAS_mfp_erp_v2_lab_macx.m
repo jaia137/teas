@@ -81,14 +81,14 @@ tin_freq = str2num(tf{:});
 
 %% get sensation levels
 
-prompt = {'Sensation level 1000 Hz:','Sensation level Tinnitus:'};
+prompt = {'Sensation level 500 Hz:','Sensation level Tinnitus:'};
 dlg_title = 'Input';
 num_lines = 1;
 answer = inputdlg(prompt,dlg_title,num_lines);
 
 sl_all = answer;
 
-sl_1000 = str2num(answer{1});
+sl_500 = str2num(answer{1});
 sl_tin = str2num(answer{2});
 
 
@@ -98,60 +98,96 @@ sl_tin = str2num(answer{2});
 %for smooth code, create a class and maybe package - or use proper instance
 %copy with matlab.mixin.Copyable / copy()
 
-% constants
-f_1000 = 1000; %maybe obsolete...
-
-f_5000 = 5000;
+% params
 dur = 0.075; %stimulus duration
-std_db = -107+sl_1000+65; %standard SL + 60dB
+std_db = -107+sl_500+65; %standard SL + 60dB
 rmp = 0.005; %standard ramp
+sr = 44100;
+amplitude = 1;
+amplitude_par1 = 0.7354 ;
+amplitude_par2 = 0.4626 ;
+f0 = 500;
+f1 = 1000;
+f2 = 1500;
 
-% 1000
+% 500
 % standard
-s_1000_st_10 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_st_10.db = std_db; %check dynamic range
-s_1000_st_10.apply_cos_ramp(rmp);
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*f0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*f1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*f2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_st_10 = o_ptb.stimuli.auditory.FromMatrix(sx, sr);
+s_500_st_10.db = std_db;
+s_500_st_10.apply_cos_ramp(rmp);
 
 % freq
-s_1000_freq_up_11 = o_ptb.stimuli.auditory.Sine(f_1000+0.1*f_1000, dur);
-s_1000_freq_up_11.db = std_db;
-s_1000_freq_up_11.apply_cos_ramp(rmp);
+% up
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(f0+(0.1*f0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(f1+(0.1*f1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(f2+(0.1*f2)))) ;
 
-s_1000_freq_down_12 = o_ptb.stimuli.auditory.Sine(f_1000-0.1*f_1000, dur);
-s_1000_freq_down_12.db = std_db;
-s_1000_freq_down_12.apply_cos_ramp(rmp);
+sx = (s1+s2+s3)/3;
+
+s_500_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_freq_up_11.db = std_db;
+s_500_freq_up_11.apply_cos_ramp(rmp);
+
+% down
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(f0-(0.1*f0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(f1-(0.1*f1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(f2-(0.1*f2)))) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_freq_down_12.db = std_db;
+s_500_freq_down_12.apply_cos_ramp(rmp);
 
 % loudness
-s_1000_loud_up_13 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_up_13.db = std_db + 10;
-s_1000_loud_up_13.apply_cos_ramp(rmp);
 
-s_1000_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(1000, dur);
-s_1000_loud_dwn_14.db = std_db - 10;
-s_1000_loud_dwn_14.apply_cos_ramp(rmp);
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*f0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*f1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*f2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_loud_up_13.db = std_db + 10;
+s_500_loud_up_13.apply_cos_ramp(rmp);
+
+s_500_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
+s_500_loud_dwn_14.db = std_db - 10;
+s_500_loud_dwn_14.apply_cos_ramp(rmp);
 
 %location 
-s_1000_loc_l_15 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_l_15.angle = -pi/2;
-s_1000_loc_l_15.db = std_db; 
-s_1000_loc_l_15.apply_cos_ramp(rmp);
+s_500_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
+s_500_loc_l_15.angle = -pi/2;
+s_500_loc_l_15.db = std_db; 
+s_500_loc_l_15.apply_cos_ramp(rmp);
 
-s_1000_loc_r_16 = o_ptb.stimuli.auditory.Sine(1000, dur);	
-s_1000_loc_r_16.angle = pi/2;
-s_1000_loc_r_16.db = std_db; 
-s_1000_loc_r_16.apply_cos_ramp(rmp);
+s_500_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
+s_500_loc_r_16.angle = pi/2;
+s_500_loc_r_16.db = std_db; 
+s_500_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
-s_1000_dur_17 = o_ptb.stimuli.auditory.Sine(1000, dur-0.05);
-s_1000_dur_17.db = std_db;
-s_1000_dur_17.apply_cos_ramp(rmp);
+s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*f0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.025))/sr*f1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.025))/sr*f2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_500_dur_17 = o_ptb.stimuli.auditory.FromMatrix(sx,sr) ;
+s_500_dur_17.db = std_db;
+s_500_dur_17.apply_cos_ramp(rmp);
+
 
 % gap
 %ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
 %gap2=1543.5
 
-sr = 44100;
-amplitude = 1;
 t = floor(sr * 0.005);
 t2 = floor(sr * 0.001);
 
@@ -164,61 +200,109 @@ rb = 1 - cos(linspace(0, pi/2, t/5));
 r_z = [rb, ones(1, 1279), r_z]; 
 
 
-gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*1000)) .* r;
+gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*f0)) .* r;
+gap_11 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*f1)) .* r;
+gap_12 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*f2)) .* r;
+
+gap_1 = ((gap_1 + gap_11 + gap_12) / 3);
+
+gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*f0)) .* r_z;
+gap_21 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*f1)) .* r_z;
+gap_22 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*f2)) .* r_z;
+
+gap_2 = ((gap_2 + gap_21 + gap_22) / 3);
+
 gap   = zeros(1,220)    ;
-gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*1000)) .* r_z;
 
 gap_x = [gap_1,gap,gap_2];
 
-s_1000_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
-s_1000_gap_18.db = std_db;
+s_500_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
+s_500_gap_18.db = std_db;
 
+%%%%%%%%%%%%%%%
 % tin
+
+tinf0 = tin_freq   ;
+tinf1 = tin_freq*2 ;
+tinf2 = tin_freq*3 ;
+
 % standard
-s_tin_st_10 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
-s_tin_st_10.db = std_db; %check dynamic range
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_st_10 = o_ptb.stimuli.auditory.FromMatrix(sx, sr);
+s_tin_st_10.db = std_db;
 s_tin_st_10.apply_cos_ramp(rmp);
 
 % freq
-s_tin_freq_up_11 = o_ptb.stimuli.auditory.Sine(tin_freq+0.1*tin_freq, dur);
+% up
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0+(0.1*tinf0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(tinf1+(0.1*tinf1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(tinf2+(0.1*tinf2)))) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_freq_up_11.db = std_db;
 s_tin_freq_up_11.apply_cos_ramp(rmp);
 
-s_tin_freq_down_12 = o_ptb.stimuli.auditory.Sine(tin_freq-0.1*tin_freq, dur);
+% down
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0-(0.1*tinf0)))) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*(tinf1-(0.1*tinf1))));
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*(tinf2-(0.1*tinf2)))) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_freq_down_12.db = std_db;
 s_tin_freq_down_12.apply_cos_ramp(rmp);
 
 % loudness
-s_tin_loud_up_13 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
+
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.075))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.075))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_loud_up_13.db = std_db + 10;
 s_tin_loud_up_13.apply_cos_ramp(rmp);
 
-s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);
+s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);
 s_tin_loud_dwn_14.db = std_db - 10;
 s_tin_loud_dwn_14.apply_cos_ramp(rmp);
 
 %location 
-s_tin_loc_l_15 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
+s_tin_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
 s_tin_loc_l_15.angle = -pi/2;
 s_tin_loc_l_15.db = std_db; 
 s_tin_loc_l_15.apply_cos_ramp(rmp);
 
-s_tin_loc_r_16 = o_ptb.stimuli.auditory.Sine(tin_freq, dur);	
+s_tin_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(sx,sr);	
 s_tin_loc_r_16.angle = pi/2;
 s_tin_loc_r_16.db = std_db; 
 s_tin_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
-s_tin_dur_17 = o_ptb.stimuli.auditory.Sine(tin_freq, dur-0.05);
+s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*tinf0)) ;
+s2 = (amplitude_par1 * sin(2*pi*(1:(sr*0.025))/sr*tinf1)) ;
+s3 = (amplitude_par2 * sin(2*pi*(1:(sr*0.025))/sr*tinf2)) ;
+
+sx = (s1+s2+s3)/3;
+
+s_tin_dur_17 = o_ptb.stimuli.auditory.FromMatrix(sx,sr) ;
 s_tin_dur_17.db = std_db;
 s_tin_dur_17.apply_cos_ramp(rmp);
+
 
 % gap
 %ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
 %gap2=1543.5
 
-sr = 44100;
-amplitude = 1;
 t = floor(sr * 0.005);
 t2 = floor(sr * 0.001);
 
@@ -231,18 +315,28 @@ rb = 1 - cos(linspace(0, pi/2, t/5));
 r_z = [rb, ones(1, 1279), r_z]; 
 
 
-gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tin_freq)) .* r;
+gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r;
+gap_11 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*tinf1)) .* r;
+gap_12 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*tinf2)) .* r;
+
+gap_1 = ((gap_1 + gap_11 + gap_12) / 3);
+
+gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r_z;
+gap_21 = (amplitude_par1 * sin(2*pi*(1:(sr*0.035))/sr*tinf1)) .* r_z;
+gap_22 = (amplitude_par2 * sin(2*pi*(1:(sr*0.035))/sr*tinf2)) .* r_z;
+
+gap_2 = ((gap_2 + gap_21 + gap_22) / 3);
+
 gap   = zeros(1,220)    ;
-gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tin_freq)) .* r_z;
 
 gap_x = [gap_1,gap,gap_2];
 
-s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
+s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
 s_tin_gap_18.db = std_db;
 
 %% main block, pseudo random sequence init
 
-% init rndm dev seq 1000
+% init rndm dev seq 500
 dev_rnd = [1 2 3 4 5];
 rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
 dev_rnd_seq = [];
@@ -255,7 +349,7 @@ dev_rnd_seq_tin = [];
 
 %% single dev blocks, full rndm and no neighbors, dichotomous devs with 1/2 probability
 
-% 1000
+% 500
 for i = 1:60
     dev_rnd_seq(i).name = randperm(length(dev_rnd));
 end
@@ -298,7 +392,7 @@ end
 M=1;
 N=60;
 
-% frq 1000
+% frq 500
 d_f = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_f)
@@ -368,7 +462,7 @@ end
 %% create final deviant stim matrix with sub deviants
 %make more elegant, efficient: if any subfield = target number...
 
-% 1000
+% 500
 for i =1:60
     if dev_rnd_seq(i).name(1) == 1
        dev_rnd_seq(i).name(1) = d_f(i);
@@ -513,7 +607,7 @@ end
 
 %% weave in standards, create final stim block lists
 
-% 1000
+% 500
 for i = 1:60
        dev_rnd_seq(i).name = [10 dev_rnd_seq(i).name(1) 10 dev_rnd_seq(i).name(2) ...
                            10 dev_rnd_seq(i).name(3) 10 dev_rnd_seq(i).name(4)...
@@ -528,9 +622,9 @@ for i = 1:60
                            10 dev_rnd_seq_tin(i).name(5)];
 end
 
-%% FINAL SEQUENCES, for 1000 and TIN
+%% FINAL SEQUENCES, for 500 and TIN
 
-dev_rnd_seq_1000 = dev_rnd_seq;
+dev_rnd_seq_500 = dev_rnd_seq;
 
 
 
@@ -552,13 +646,13 @@ for i = 1:9
 end
 
 
-%% 1000 HZ
+%% 500 HZ
 % main trail, 615 reps
 
 while(1)
     
 for i = 1:15
-        ptb.prepare_audio(s_1000_st_10, isi, true);
+        ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
         outp(address,trigs(1))
@@ -576,7 +670,7 @@ WaitSecs(3);
 for h = 1:3
 
 for i = 1:15
-        ptb.prepare_audio(s_1000_st_10, isi, true);
+        ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
         outp(address,trigs(1))
@@ -586,64 +680,64 @@ end
 
 for i = 1:60
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if dev_rnd_seq_1000(i).name(j) == 10
-            ptb.prepare_audio(s_1000_st_10, isi, true)
+        if dev_rnd_seq_500(i).name(j) == 10
+            ptb.prepare_audio(s_500_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 11
-            ptb.prepare_audio(s_1000_freq_up_11, isi, true)
+        elseif dev_rnd_seq_500(i).name(j) == 11
+            ptb.prepare_audio(s_500_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 12
-            ptb.prepare_audio(s_1000_freq_down_12, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 12
+            ptb.prepare_audio(s_500_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 13
-            ptb.prepare_audio(s_1000_loud_up_13, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 13
+            ptb.prepare_audio(s_500_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 14
-            ptb.prepare_audio(s_1000_loud_dwn_14, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 14
+            ptb.prepare_audio(s_500_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 15
-            ptb.prepare_audio(s_1000_loc_l_15, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 15
+            ptb.prepare_audio(s_500_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 16
-            ptb.prepare_audio(s_1000_loc_r_16, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 16
+            ptb.prepare_audio(s_500_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 17
-            ptb.prepare_audio(s_1000_dur_17, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 17
+            ptb.prepare_audio(s_500_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
-        elseif dev_rnd_seq_1000(i).name(j) == 18
-            ptb.prepare_audio(s_1000_gap_18, isi, true);
+        elseif dev_rnd_seq_500(i).name(j) == 18
+            ptb.prepare_audio(s_500_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
             outp(address,trigs(9)) 
@@ -763,18 +857,18 @@ end
 
 %% spectrogram, waveforms of stimuli
 
-% wav_plots = who('s_1000*');
+% wav_plots = who('s_500*');
 % 
 % for i = 1:9
 % wav_plots{i}.plot_waveform;
 % end
 
-% s_1000_st_10.plot_waveform
-% s_1000_freq_up_11.plot_waveform
-% s_1000_freq_down_12.plot_waveform
-% s_1000_loud_up_13.plot_waveform
-% s_1000_loud_dwn_14.plot_waveform
-% s_1000_loc_l_15.plot_waveform
-% s_1000_loc_r_16.plot_waveform
-% s_1000_dur_17.plot_waveform
-% s_1000_gap_18.plot_waveform
+% s_500_st_10.plot_waveform
+% s_500_freq_up_11.plot_waveform
+% s_500_freq_down_12.plot_waveform
+% s_500_loud_up_13.plot_waveform
+% s_500_loud_dwn_14.plot_waveform
+% s_500_loc_l_15.plot_waveform
+% s_500_loc_r_16.plot_waveform
+% s_500_dur_17.plot_waveform
+% s_500_gap_18.plot_waveform

@@ -14,8 +14,6 @@ for i = 1:17
 rand('state',sum(100 * clock));    % initialize random seed
 noise = randn(1, n);               % gaussian noise
 
-
-
 %% filter, alternatively use fieldtrip filters
 
 Fc1 = 0.1;
@@ -37,3 +35,16 @@ fprintf(fileID,'%.6d\n',wave);
 fclose(fileID);
 
 end
+
+
+%% adjust amplitude of text files
+
+cd ('/Users/shanti/Documents/GitHub/teas/src/matlab/tes');
+
+waves = dir ('*.txt');
+
+%% load files
+
+for i = 1:length(waves)
+    
+
