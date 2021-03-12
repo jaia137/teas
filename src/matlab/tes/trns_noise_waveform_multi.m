@@ -46,5 +46,23 @@ waves = dir ('*.txt');
 %% load files
 
 for i = 1:length(waves)
-    
+    filename = waves(i).name;
+    A = readmatrix(filename);
+end
+
+%%
+
+o10 = readmatrix('wave_O10.TXT') ;
+c1 = readmatrix('wave_c1.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
+o10 = readmatrix('wave_O10.TXT') ;
 
