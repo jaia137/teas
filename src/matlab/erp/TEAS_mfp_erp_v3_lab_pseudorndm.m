@@ -5,7 +5,7 @@
 % University of Zurich
 % email address: schlaukeit@gmail.com  
 % Website: 
-% December 2020; Last revision: 18-Feb-2021
+% December 2020; Last revision: 17-Mar-2021
 
 %% clear, init
 
@@ -13,18 +13,18 @@
 
 restoredefaultpath
 
-
 %% add paths
 
-addpath('C:\Program Files\MATLAB\R2016b\toolbox\o_ptb-master\') % change this to where o_ptb is on your system
+addpath('C:\Program Files\MATLAB\R2016b\toolbox\o_ptb-master\') 
 
 addpath('C:\toolbox\Psychtoolbox\')
 
 addpath('C:\Program Files\MATLAB\R2016b\toolbox\io\')
 
+
 %% initialize PTB
 
-o_ptb.init_ptb('C:\toolbox\Psychtoolbox\') % change this to where o_ptb is on your system
+o_ptb.init_ptb('C:\toolbox\Psychtoolbox\') 
 
 
 %% config + instance o_ptb,
@@ -46,30 +46,21 @@ ptb = o_ptb.PTB.get_instance(ptb_cfg);
 
 ptb_cfg.internal_config.final_resolution = [1980 1024];
 
-% ptb.setup_screen;   
 ptb.setup_audio;
 ptb.setup_trigger;
 
-%%
+
+%% init trigger system
 
 config_io;
 
 ioObj = io64;
-
 status = io64(ioObj);
+address = hex2dec('d010');          
+data_out=0;                  
 
-%
-% if status = 0, you are now ready to write and read to a hardware port
-% let's try sending the value=1 to the parallel printer's output port (LPT1)
-address = hex2dec('d010');          %standard LPT1 output port address
-data_out=0;                                 %sample data value
-io64(ioObj,address,data_out);   %output command
-%
-% now, let's read that value back into MATLAB
-% data_in=io64(ioObj,address);
-%
-% when finished with the io64 object it can be discarded via
-% 'clear all', 'clear mex', 'clear io64' or 'clear functions' command.
+io64(ioObj,address,data_out);   
+
 
 %% STIMULI 
 %% get tinnitus frequency
@@ -93,10 +84,6 @@ sl_tin = str2num(answer{2});
 
 
 %% create stimuli, standard and deviants
-%most critical: check dynamic range and loudness!
-%also careful with one shot scripting, redo var names
-%for smooth code, create a class and maybe package - or use proper instance
-%copy with matlab.mixin.Copyable / copy()
 
 % params
 dur = 0.075; %stimulus duration
@@ -621,14 +608,7 @@ for i = 1:60
                            10 dev_rnd_seq_tin(i).name(3) 10 dev_rnd_seq_tin(i).name(4)...
                            10 dev_rnd_seq_tin(i).name(5)];
 end
-
-%% FINAL SEQUENCES, for 500 and TIN
-
-dev_rnd_seq_500 = dev_rnd_seq;
-
-
-
-
+  
 
 %%
 %% EXPERIMENT
@@ -640,11 +620,15 @@ WaitSecs(5);
 isi = 0.5;
 
 % make trig struct
-trigs = [];
+trigs_500 = [];
 for i = 1:9
-    trigs(i) = 9+i ;
+    trigs_500(i) = 9+i ;
 end
 
+trigs_tin = [];
+for i = 1:9
+    trigs_tin(i) = 19+i ;
+end
 
 %% 500 HZ
 % main trail, 615 reps
@@ -655,7 +639,7 @@ for i = 1:15
         ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_500(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -673,7 +657,7 @@ for i = 1:15
         ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_500(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -684,63 +668,63 @@ for i = 1:60
             ptb.prepare_audio(s_500_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_500(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 11
             ptb.prepare_audio(s_500_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_500(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 12
             ptb.prepare_audio(s_500_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_500(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 13
             ptb.prepare_audio(s_500_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_500(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 14
             ptb.prepare_audio(s_500_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_500(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 15
             ptb.prepare_audio(s_500_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_500(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 16
             ptb.prepare_audio(s_500_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_500(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 17
             ptb.prepare_audio(s_500_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_500(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 18
             ptb.prepare_audio(s_500_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_500(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
@@ -753,7 +737,7 @@ for i = 1:15
         ptb.prepare_audio(s_tin_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_tin(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -764,63 +748,63 @@ for i = 1:60
             ptb.prepare_audio(s_tin_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_tin(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 11
             ptb.prepare_audio(s_tin_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_tin(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 12
             ptb.prepare_audio(s_tin_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_tin(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 13
             ptb.prepare_audio(s_tin_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_tin(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 14
             ptb.prepare_audio(s_tin_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_tin(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 15
             ptb.prepare_audio(s_tin_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_tin(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 16
             ptb.prepare_audio(s_tin_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_tin(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 17
             ptb.prepare_audio(s_tin_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_tin(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 18
             ptb.prepare_audio(s_tin_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_tin(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
@@ -835,7 +819,7 @@ for i = 1:15
         ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_500(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -846,63 +830,63 @@ for i = 1:60
             ptb.prepare_audio(s_500_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_500(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 11
             ptb.prepare_audio(s_500_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_500(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 12
             ptb.prepare_audio(s_500_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_500(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 13
             ptb.prepare_audio(s_500_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_500(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 14
             ptb.prepare_audio(s_500_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_500(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 15
             ptb.prepare_audio(s_500_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_500(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 16
             ptb.prepare_audio(s_500_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_500(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 17
             ptb.prepare_audio(s_500_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_500(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 18
             ptb.prepare_audio(s_500_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_500(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
@@ -925,7 +909,7 @@ for i = 1:15
         ptb.prepare_audio(s_tin_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_tin(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -936,63 +920,63 @@ for i = 1:60
             ptb.prepare_audio(s_tin_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_tin(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 11
             ptb.prepare_audio(s_tin_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_tin(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 12
             ptb.prepare_audio(s_tin_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_tin(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 13
             ptb.prepare_audio(s_tin_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_tin(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 14
             ptb.prepare_audio(s_tin_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_tin(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 15
             ptb.prepare_audio(s_tin_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_tin(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 16
             ptb.prepare_audio(s_tin_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_tin(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 17
             ptb.prepare_audio(s_tin_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_tin(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 18
             ptb.prepare_audio(s_tin_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_tin(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
@@ -1005,7 +989,7 @@ for i = 1:15
         ptb.prepare_audio(s_500_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_500(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -1016,63 +1000,63 @@ for i = 1:60
             ptb.prepare_audio(s_500_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_500(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 11
             ptb.prepare_audio(s_500_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_500(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 12
             ptb.prepare_audio(s_500_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_500(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 13
             ptb.prepare_audio(s_500_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_500(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 14
             ptb.prepare_audio(s_500_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_500(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 15
             ptb.prepare_audio(s_500_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_500(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 16
             ptb.prepare_audio(s_500_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_500(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 17
             ptb.prepare_audio(s_500_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_500(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_500(i).name(j) == 18
             ptb.prepare_audio(s_500_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_500(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
@@ -1085,7 +1069,7 @@ for i = 1:15
         ptb.prepare_audio(s_tin_st_10, isi, true);
         ptb.schedule_audio;
         ptb.play_without_flip;
-        outp(address,trigs(1))
+        outp(address,trigs_tin(1))
         WaitSecs(0.0009765625);
         outp(address,0);
 end 
@@ -1096,63 +1080,63 @@ for i = 1:60
             ptb.prepare_audio(s_tin_st_10, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(1)) 
+            outp(address,trigs_tin(1)) 
             WaitSecs(0.0009765625);
             outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 11
             ptb.prepare_audio(s_tin_freq_up_11, isi, true)
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(2)) 
+            outp(address,trigs_tin(2)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 12
             ptb.prepare_audio(s_tin_freq_down_12, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(3)) 
+            outp(address,trigs_tin(3)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 13
             ptb.prepare_audio(s_tin_loud_up_13, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(4)) 
+            outp(address,trigs_tin(4)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 14
             ptb.prepare_audio(s_tin_loud_dwn_14, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(5)) 
+            outp(address,trigs_tin(5)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 15
             ptb.prepare_audio(s_tin_loc_l_15, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(6))
+            outp(address,trigs_tin(6))
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 16
             ptb.prepare_audio(s_tin_loc_r_16, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(7)) 
+            outp(address,trigs_tin(7)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 17
             ptb.prepare_audio(s_tin_dur_17, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(8)) 
+            outp(address,trigs_tin(8)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         elseif dev_rnd_seq_tin(i).name(j) == 18
             ptb.prepare_audio(s_tin_gap_18, isi, true);
             ptb.schedule_audio;
             ptb.play_without_flip;
-            outp(address,trigs(9)) 
+            outp(address,trigs_tin(9)) 
                     WaitSecs(0.0009765625);
         outp(address,0);
         end
