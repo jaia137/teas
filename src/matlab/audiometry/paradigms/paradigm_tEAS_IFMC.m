@@ -15,7 +15,7 @@ betweenRuns.variableName1='maskerRelativeFrequency';
 betweenRuns.variableList1=[1       0.5       1.6   .9 .7   1.1 1.3      ];
 betweenRuns.variableName2='targetFrequency';
 % keep old list of target frequencies
-betweenRuns.variableList2=[1000];
+betweenRuns.variableList2=[500];
 
 experiment.maskerInUse=1;
 

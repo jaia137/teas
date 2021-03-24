@@ -26,7 +26,7 @@ stimulusParameters.gapDuration=betweenRuns.variableList1;
 
 stimulusParameters.targetType='tone';
 stimulusParameters.targetPhase='sin';
-stimulusParameters.targetFrequency=[1000];
+stimulusParameters.targetFrequency=[500];
 stimulusParameters.targetDuration=0.02;
 stimulusParameters.targetLevel=-stimulusParameters.WRVstartValues(1);
 

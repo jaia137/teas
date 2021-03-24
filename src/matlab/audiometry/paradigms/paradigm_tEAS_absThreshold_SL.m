@@ -4,7 +4,7 @@ global stimulusParameters experiment betweenRuns
 paradigmBase(handles) % default
 
 betweenRuns.variableName1='targetFrequency';
-betweenRuns.variableList1= 1000 ;
+betweenRuns.variableList1= 500 ;
 betweenRuns.variableName2='targetDuration';
 betweenRuns.variableList2= 0.075;
 
