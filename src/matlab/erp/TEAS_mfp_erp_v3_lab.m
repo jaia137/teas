@@ -610,6 +610,10 @@ for i = 1:60
 end
   
 
+%% FINAL SEQUENCES, for 1000 and TIN
+
+dev_rnd_seq_500 = dev_rnd_seq;
+
 %%
 %% EXPERIMENT
 %prep, screen needed? instructions?
