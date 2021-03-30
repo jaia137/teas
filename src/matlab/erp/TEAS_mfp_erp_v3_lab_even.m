@@ -326,12 +326,12 @@ s_tin_gap_18.db = std_db;
 % init rndm dev seq 500
 dev_rnd = [1 2 3 4 5];
 rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
-dev_rnd_seq(i) = [];
+dev_rnd_seq = [];
 
 % init rndm dev seq tin
-dev_rnd_tin(i) = [1 2 3 4 5];
+dev_rnd_tin = [1 2 3 4 5];
 rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
-dev_rnd_seq_tin(i) = [];
+dev_rnd_seq_tin = [];
 
 
 %% single dev blocks, full rndm and no neighbors, dichotomous devs with 1/2 probability
