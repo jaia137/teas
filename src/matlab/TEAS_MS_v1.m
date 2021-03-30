@@ -55,11 +55,19 @@ run('USZmultiThreshold.m');
 % pick tEAS_SL, choose no calibration file, choose diotic, enter tinnitus pitch, instruct patient ("basically the same as PTA"), run, note SL values for both frequencies, save
 
 
-%% ERP 
+%% ERP odd
 
 cd(ERP_path);
 
-open('TEAS_mfp_erp_v3_lab.m');
+open('TEAS_mfp_erp_v3_lab_odd.m');
+
+% run script and follow instructions, close when done
+
+%% ERP even
+
+cd(ERP_path);
+
+open('TEAS_mfp_erp_v3_lab_even.m');
 
 % run script and follow instructions, close when done
 
