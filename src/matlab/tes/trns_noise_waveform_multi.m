@@ -1,6 +1,6 @@
 %% TRNS NOISE SCRIPT
 
-Fs = 16000;                        % sampling frequency (Hz)
+Fs = 12800;                        % sampling frequency (Hz)
 d = 10.0;                         % <-----------------duration
 n = Fs * d;                        % number of samples
 amp = [-0.1526 0.5289 0.7849 -0.0503 -0.1593 -0.2068 -0.0981 ...
