@@ -1,5 +1,6 @@
 function ptb_config = config_ptb()
 %% init paths....
+
 restoredefaultpath;
 % addpath('../o_ptb/');
 addpath('C:\Program Files\MATLAB\R2016b\toolbox\o_ptb-master\') 
@@ -14,6 +15,7 @@ commandwindow;
 
 
 %% create ptb_config
+
 ptb_cfg = o_ptb.PTB_Config();
 
 ptb_cfg.fullscreen = false;
