@@ -90,7 +90,7 @@ f_1000 = 500; %maybe obsolete...
 
 f_5000 = 5000;
 dur = 0.075; %stimulus duration
-std_db = -100+sl_1000+60; %standard SL + 60dB
+std_db = -100+sl_500+60; %standard SL + 60dB
 rmp = 0.005; %standard ramp
 
 % standard
