@@ -161,6 +161,96 @@ gap_x = [gap_1,gap,gap_2];
 s_500_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
 s_500_gap_18.db = std_db;
 
+%%%%%%%%%%%%%%%
+% tin
+
+tinf0 = tin_freq   ;
+
+
+% standard
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+
+
+
+
+s_tin_st_10 = o_ptb.stimuli.auditory.FromMatrix(s1, sr);
+s_tin_st_10.db = std_db;
+s_tin_st_10.apply_cos_ramp(rmp);
+
+% freq
+% up
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0+(0.1*tinf0)))) ;
+
+
+s_tin_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
+s_tin_freq_up_11.db = std_db;
+s_tin_freq_up_11.apply_cos_ramp(rmp);
+
+% down
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0-(0.1*tinf0)))) ;
+
+s_tin_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
+s_tin_freq_down_12.db = std_db;
+s_tin_freq_down_12.apply_cos_ramp(rmp);
+
+% loudness
+
+s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
+
+s_tin_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
+s_tin_loud_up_13.db = std_db + 10;
+s_tin_loud_up_13.apply_cos_ramp(rmp);
+
+s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
+s_tin_loud_dwn_14.db = std_db - 10;
+s_tin_loud_dwn_14.apply_cos_ramp(rmp);
+
+%location 
+s_tin_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);	
+s_tin_loc_l_15.angle = -pi/2;
+s_tin_loc_l_15.db = std_db; 
+s_tin_loc_l_15.apply_cos_ramp(rmp);
+
+s_tin_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);	
+s_tin_loc_r_16.angle = pi/2;
+s_tin_loc_r_16.db = std_db; 
+s_tin_loc_r_16.apply_cos_ramp(rmp);
+
+%duration
+s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*tinf0)) ;
+
+
+s_tin_dur_17 = o_ptb.stimuli.auditory.FromMatrix(s1,sr) ;
+s_tin_dur_17.db = std_db;
+s_tin_dur_17.apply_cos_ramp(rmp);
+
+
+% gap
+%ugly code, pls fix, 3307.5 samples @44,1, gap1=1543.5 , gap =220/221,
+%gap2=1543.5
+
+t = floor(sr * 0.005);
+t2 = floor(sr * 0.001);
+
+r = 1 - cos(linspace(0, pi/2, t));
+ra = 1 - cos(linspace(pi/2, 0, t/5));
+r = [r, ones(1, 1279), ra];
+
+r_z = 1 - cos(linspace(pi/2, 0, t));
+rb = 1 - cos(linspace(0, pi/2, t/5));
+r_z = [rb, ones(1, 1279), r_z]; 
+
+
+gap_1 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r;
+
+gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*tinf0)) .* r_z;
+
+gap   = zeros(1,220)    ;
+
+gap_x = [gap_1,gap,gap_2];
+
+s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
+s_tin_gap_18.db = std_db;
 
 %% main block, pseudo random sequence init
 
@@ -506,7 +596,95 @@ end
 
 WaitSecs(3);
 
+for i = 1:15
+        ptb.prepare_audio(s_tin_st_10);
+        ptb.schedule_audio;
+        ptb.play_without_flip;
+        outp(address,trigs_tin(1))
+        WaitSecs(triglen);
+        outp(address,0);
+        WaitSecs(soaall);
+end 
 
+for i = 1:60
+    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 10 
+            ptb.prepare_audio(s_tin_st_10)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(1)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 11
+            ptb.prepare_audio(s_tin_freq_up_11)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(2)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 12
+            ptb.prepare_audio(s_tin_freq_down_12);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(3)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 13
+            ptb.prepare_audio(s_tin_loud_up_13);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(4)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 14
+            ptb.prepare_audio(s_tin_loud_dwn_14);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(5)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 15
+            ptb.prepare_audio(s_tin_loc_l_15);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(6))
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 16
+            ptb.prepare_audio(s_tin_loc_r_16);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(7)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 17
+            ptb.prepare_audio(s_tin_dur_17);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(8)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soadur);
+        elseif dev_rnd_seq_tin(i).name(j) == 18
+            ptb.prepare_audio(s_tin_gap_18);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(9)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        end
+    end 
+end
+
+WaitSecs(10);
 
 for i = 1:15
         ptb.prepare_audio(s_500_st_10);
@@ -597,6 +775,100 @@ for i = 1:60
 end
 
 WaitSecs(10);
+
+for i = 1:15
+        ptb.prepare_audio(s_tin_st_10);
+        ptb.schedule_audio;
+        ptb.play_without_flip;
+        outp(address,trigs_tin(1))
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+end 
+
+for i = 1:60
+    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 10 
+            ptb.prepare_audio(s_tin_st_10)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(1)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 11
+            ptb.prepare_audio(s_tin_freq_up_11)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(2)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 12
+            ptb.prepare_audio(s_tin_freq_down_12);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(3)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 13
+            ptb.prepare_audio(s_tin_loud_up_13);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(4)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 14
+            ptb.prepare_audio(s_tin_loud_dwn_14);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(5)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 15
+            ptb.prepare_audio(s_tin_loc_l_15);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(6))
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 16
+            ptb.prepare_audio(s_tin_loc_r_16);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(7)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 17
+            ptb.prepare_audio(s_tin_dur_17);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(8)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soadur);
+        elseif dev_rnd_seq_tin(i).name(j) == 18
+            ptb.prepare_audio(s_tin_gap_18);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(9)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        end
+    end 
+end
+
+
+choice = menu('Press Yes to CONTINUE or question the meaning of life...','Yes');
+if choice==1
+   disp('lezze go!');
+end
 
 WaitSecs(3);
 
@@ -694,6 +966,95 @@ end
 
 WaitSecs(10);
 
+for i = 1:15
+        ptb.prepare_audio(s_tin_st_10);
+        ptb.schedule_audio;
+        ptb.play_without_flip;
+        outp(address,trigs_tin(1))
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+end 
+
+for i = 1:60
+    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 10 
+            ptb.prepare_audio(s_tin_st_10)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(1)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 11
+            ptb.prepare_audio(s_tin_freq_up_11)
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(2)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 12
+            ptb.prepare_audio(s_tin_freq_down_12);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(3)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 13
+            ptb.prepare_audio(s_tin_loud_up_13);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(4)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 14
+            ptb.prepare_audio(s_tin_loud_dwn_14);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(5)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 15
+            ptb.prepare_audio(s_tin_loc_l_15);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(6))
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 16
+            ptb.prepare_audio(s_tin_loc_r_16);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(7)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        elseif dev_rnd_seq_tin(i).name(j) == 17
+            ptb.prepare_audio(s_tin_dur_17);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(8)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soadur);
+        elseif dev_rnd_seq_tin(i).name(j) == 18
+            ptb.prepare_audio(s_tin_gap_18);
+            ptb.schedule_audio;
+            ptb.play_without_flip;
+            outp(address,trigs_tin(9)) 
+            WaitSecs(triglen);
+            outp(address,0);
+            WaitSecs(soaall);
+        end
+    end 
+end
+
+WaitSecs(10);
 
 for i = 1:15
         ptb.prepare_audio(s_500_st_10);
