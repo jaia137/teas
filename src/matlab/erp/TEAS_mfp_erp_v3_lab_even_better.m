@@ -338,12 +338,13 @@ dev_rnd_seq_tin = [];
 
 % 500
 %create random stim struct
-for i = 1:60
+
+for i = 1:180
     dev_rnd_seq(i).name = randperm(length(dev_rnd));
 end
 
 %eliminate identical sequence neighbours
-for j =2:60
+for j =2:180
     if dev_rnd_seq(j-1).name(5) == dev_rnd_seq(j).name(1)
       [dev_rnd_seq(j).name(2), dev_rnd_seq(j).name(1)] =  deal(dev_rnd_seq(j).name(1), dev_rnd_seq(j).name(2));
     end 
@@ -352,18 +353,18 @@ end
 %create deviant sub struct
 dev_sub_rnd = [1 2];
 
-for k = 1:60
+for k = 1:180
     dev_sub_rnd_seq(k).name = randperm(length(dev_sub_rnd));
 end
 
 % tin
 %create random stim struct
-for i = 1:60
+for i = 1:180
     dev_rnd_seq_tin(i).name = randperm(length(dev_rnd_tin));
 end
 
 %eliminate identical sequence neighbours
-for j =2:60
+for j =2:180
     if dev_rnd_seq_tin(j-1).name(5) == dev_rnd_seq_tin(j).name(1)
       [dev_rnd_seq_tin(j).name(2), dev_rnd_seq_tin(j).name(1)] =  deal(dev_rnd_seq_tin(j).name(1), dev_rnd_seq_tin(j).name(2));
     end 
@@ -372,7 +373,7 @@ end
 %create deviant sub struct
 dev_sub_rnd_tin = [1 2];
 
-for k = 1:60
+for k = 1:180
     dev_sub_rnd_seq_tin(k).name = randperm(length(dev_sub_rnd_tin));
 end
 
@@ -382,7 +383,7 @@ end
 
 % init list
 M=1;
-N=60;
+N=180;
 
 % frq 500
 d_f = (mod( reshape(randperm(M*N), M, N), 2 ))';
@@ -455,7 +456,7 @@ end
 %make more elegant, efficient: if any subfield = target number...
 
 % 500
-for i =1:60
+for i =1:180
     if dev_rnd_seq(i).name(1) == 1
        dev_rnd_seq(i).name(1) = d_f(i);
     elseif dev_rnd_seq(i).name(2) == 1  
@@ -469,7 +470,7 @@ for i =1:60
     end
 end
 
-for i =1:60
+for i =1:180
     if dev_rnd_seq(i).name(1) == 2
        dev_rnd_seq(i).name(1) = d_l(i);
     elseif dev_rnd_seq(i).name(2) == 2  
@@ -483,7 +484,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq(i).name(1) == 3
        dev_rnd_seq(i).name(1) = d_lo(i);
     elseif dev_rnd_seq(i).name(2) == 3  
@@ -497,7 +498,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq(i).name(1) == 4
        dev_rnd_seq(i).name(1) = 17;
     elseif dev_rnd_seq(i).name(2) == 4  
@@ -511,7 +512,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq(i).name(1) == 5
        dev_rnd_seq(i).name(1) = 18;
     elseif dev_rnd_seq(i).name(2) == 5  
@@ -527,7 +528,7 @@ end
 
 % tin
 
-for i =1:60
+for i =1:180
     if dev_rnd_seq_tin(i).name(1) == 1
        dev_rnd_seq_tin(i).name(1) = d_f_tin(i);
     elseif dev_rnd_seq_tin(i).name(2) == 1  
@@ -541,7 +542,7 @@ for i =1:60
     end
 end
 
-for i =1:60
+for i =1:180
     if dev_rnd_seq_tin(i).name(1) == 2
        dev_rnd_seq_tin(i).name(1) = d_l_tin(i);
     elseif dev_rnd_seq_tin(i).name(2) == 2  
@@ -555,7 +556,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 3
        dev_rnd_seq_tin(i).name(1) = d_lo_tin(i);
     elseif dev_rnd_seq_tin(i).name(2) == 3  
@@ -569,7 +570,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 4
        dev_rnd_seq_tin(i).name(1) = 17;
     elseif dev_rnd_seq_tin(i).name(2) == 4  
@@ -583,7 +584,7 @@ for i =1:60
     end
 end
 
-for i =1:60 
+for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 5
        dev_rnd_seq_tin(i).name(1) = 18;
     elseif dev_rnd_seq_tin(i).name(2) == 5  
@@ -600,7 +601,7 @@ end
 %% weave in standards, create final stim block lists
 
 % 500
-for i = 1:60
+for i = 1:180
        dev_rnd_seq(i).name = [10 dev_rnd_seq(i).name(1) 10 dev_rnd_seq(i).name(2) ...
                            10 dev_rnd_seq(i).name(3) 10 dev_rnd_seq(i).name(4)...
                            10 dev_rnd_seq(i).name(5)];
@@ -608,14 +609,14 @@ end
 
 % tin
 
-for i = 1:60
+for i = 1:180
        dev_rnd_seq_tin(i).name = [10 dev_rnd_seq_tin(i).name(1) 10 dev_rnd_seq_tin(i).name(2) ...
                            10 dev_rnd_seq_tin(i).name(3) 10 dev_rnd_seq_tin(i).name(4)...
                            10 dev_rnd_seq_tin(i).name(5)];
 end
   
 
-%% FINAL SEQUENCES, for 1000 and TIN
+%% FINAL SEQUENCES, for 500 and TIN
 
 dev_rnd_seq_500 = dev_rnd_seq;
 
@@ -860,7 +861,7 @@ for i = 1:15
             WaitSecs(soaall);
 end 
 
-for i = 1:60
+for i = 61:120
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_tin(i).name(j) == 10 
             ptb.prepare_audio(s_tin_st_10)
@@ -960,7 +961,7 @@ for i = 1:15
             WaitSecs(soaall);
 end 
 
-for i = 1:60
+for i = 61:120
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_500(i).name(j) == 10
             ptb.prepare_audio(s_500_st_10)
@@ -1050,7 +1051,7 @@ for i = 1:15
             WaitSecs(soaall);
 end 
 
-for i = 1:60
+for i = 121:180
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_tin(i).name(j) == 10 
             ptb.prepare_audio(s_tin_st_10)
@@ -1140,7 +1141,7 @@ for i = 1:15
             WaitSecs(soaall);
 end 
 
-for i = 1:60
+for i = 121:180
     for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_500(i).name(j) == 10
             ptb.prepare_audio(s_500_st_10)
