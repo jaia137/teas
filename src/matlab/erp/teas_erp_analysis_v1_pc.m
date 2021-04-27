@@ -2,9 +2,10 @@
 
 % cd(m1path);
 
-addpath('C:\Users\EEG_SUM\Documents\MATLAB\fieldtrip-20170119');
-addpath('E:\TEAS\_git\teas\src\matlab\erp');
-cd( 'E:\TEAS\EEG');
+addpath('C:\Users\Zino\Desktop\teas\fieldtrip');
+addpath('C:\Users\Zino\Desktop\teas\src\matlab\erp');
+% addpath(genpath ('C:\Users\Zino\Desktop\teas\src'));
+cd( 'C:\Users\Zino\Desktop\teas\eeg');
 % cd((m1dir(i));    
 
 ft_defaults
@@ -12,7 +13,7 @@ ft_defaults
 
 %% FILENAME
 
-dataset = 'oink137-Repaired.bdf';
+dataset = 'Mariana_EEG_erp_HT.bdf';
 
 
 %% CHECK EVENTS
@@ -39,23 +40,25 @@ cfg.trialdef.poststim   = 0.5;
 cfg = ft_definetrial(cfg);
 
 
-cfg.channel = {'all','-1-EXG1', '-1-EXG2','-1-EXG3', '-1-EXG5','-1-EXG6', '-1-EXG7','-Status'};
-cfg.dftfilter = 'yes';
-cfg.dtfreq = [50 100 150];
-%cfg.detrend = 'yes';
-cfg.bpfilter = 'yes';
-cfg.bpfreq = [1 30];  
 
 cfg.reref = 'yes';
 cfg.refchannel = {'1-EXG4', '1-EXG8'};
 cfg.demean = 'yes';
 cfg.baselinewindow = [-0.1 0];
 
+cfg.channel = {'all','-1-EXG1', '-1-EXG2','-1-EXG3', '-1-EXG5','-1-EXG6', '-1-EXG7','-Status'};
+cfg.dftfilter = 'yes';
+cfg.dtfreq = [50 100 150];
+%cfg.detrend = 'yes';
+cfg.bpfilter = 'yes';
+cfg.bpfreq = [1 45];  
+
+
 data = ft_preprocessing(cfg);
 
 % fix to somehow just have the exp trials (not pre run)
-trl = cfg.trl;
-trl = trl(76:3765,1:4); %make a generic remove test trial standards function, here the paradigm has been repeatedly restarted...
+% trl = cfg.trl;
+% trl = trl(76:end,1:4); %make a generic remove test trial standards function, here the paradigm has been repeatedly restarted...
 
 %% FIX channel labels 1 (run once, else deleted. go for if...)
 
@@ -82,19 +85,19 @@ cfg.continuous = 'yes';
 % cfg.overlap = 0.125;
 
 % cfg = ft_definetrial(cfg);
-
+cfg.reref = 'yes';
+cfg.refchannel = {'1-EXG4', '1-EXG8'};
+cfg.demean = 'yes';
+cfg.baselinewindow = [-0.1 0];
 
 cfg.channel = {'all','-1-EXG1', '-1-EXG2','-1-EXG3', '-1-EXG5','-1-EXG6', '-1-EXG7','-Status'};
 cfg.dftfilter = 'yes';
 cfg.dtfreq = [50 100 150];
 %cfg.detrend = 'yes';
 cfg.bpfilter = 'yes';
-cfg.bpfreq = [1 30];  
+cfg.bpfreq = [1 45];  
 
-cfg.reref = 'yes';
-cfg.refchannel = {'1-EXG4', '1-EXG8'};
-cfg.demean = 'yes';
-cfg.baselinewindow = [-0.1 0];
+
 
 data_cont = ft_preprocessing(cfg);
 
@@ -123,11 +126,10 @@ ft_databrowser(cfg, data_cont);
 
 %% REMOVE REF CHANNELS EXG4/8
 
-% data.label = data.label(1:128,:);
-% data.cfg.channel = data.cfg.channel(1:128,:);
-% 
-% data_cont.label = data_cont.label(1:128,:);
-% data_cont.cfg.channel = data_cont.cfg.channel(1:128,:);
+cfg = [];
+cfg.channel = {'all','-EXG4','-EXG8'};
+
+data_128 = ft_preprocessing(cfg,data);
 
 
 %% PREP layout, elecs
@@ -164,7 +166,7 @@ close all
 %% PREPROC 1: Channels
 
 cfg        = [];
-cfg.metric = 'zvalue';  
+cfg.metric = 'max';  
 cfg.method = 'summary'; 
 
 data_badchan       = ft_rejectvisual(cfg, data);
@@ -190,7 +192,7 @@ cfg        = [];
 cfg.metric = 'zvalue';  
 cfg.method = 'summary'; 
 
-data_clean       = ft_rejectvisual(cfg, data_interp);
+data_clean       = ft_rejectvisual(cfg, data_badchan);
 
 
 %% SAVE clean data
@@ -289,7 +291,7 @@ figure; ft_singleplotER(cfg, avg_tin_st, avg_tin_fu, avg_tin_fd, avg_tin_lu, avg
 %% TOPOPLOT
 
 cfg = [];
-cfg.xlim = [0.08 0.1];
+cfg.xlim = [0.15 0.21];
 % cfg.zlim = [0 6e-14];
 cfg.layout = layout_eeg;
 % cfg.parameter = 'individual'; % the default 'avg' is not present in the data
