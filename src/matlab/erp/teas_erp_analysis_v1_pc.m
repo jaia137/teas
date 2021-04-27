@@ -2,9 +2,9 @@
 
 % cd(m1path);
 
-addpath('C:\Users\pleiad\Documents\GitHub\fieldtrip');
-addpath('C:\Users\pleiad\Documents\GitHub\teas\src\matlab\erp');
-cd( 'C:\Users\pleiad\Desktop');
+addpath('C:\Users\EEG_SUM\Documents\MATLAB\fieldtrip-20170119');
+addpath('E:\TEAS\_git\teas\src\matlab\erp');
+cd( 'E:\TEAS\EEG');
 % cd((m1dir(i));    
 
 ft_defaults
@@ -12,7 +12,7 @@ ft_defaults
 
 %% FILENAME
 
-dataset = 'MD1312_EEG_erp_visittest.bdf';
+dataset = 'oink137-Repaired.bdf';
 
 
 %% CHECK EVENTS
