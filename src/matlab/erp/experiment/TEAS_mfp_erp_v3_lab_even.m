@@ -1158,23 +1158,3 @@ break
 
 end
 
-%% addendum
-%%%%%%%%%%%%
-
-%% spectrogram, waveforms of stimuli
-
-% wav_plots = who('s_500*');
-% 
-% for i = 1:9
-% wav_plots{i}.plot_waveform;
-% end
-
-% s_500_st_10.plot_waveform
-% s_500_freq_up_11.plot_waveform
-% s_500_freq_down_12.plot_waveform
-% s_500_loud_up_13.plot_waveform
-% s_500_loud_dwn_14.plot_waveform
-% s_500_loc_l_15.plot_waveform
-% s_500_loc_r_16.plot_waveform
-% s_500_dur_17.plot_waveform
-% s_500_gap_18.plot_waveform
