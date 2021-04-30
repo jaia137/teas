@@ -86,52 +86,62 @@ sl_tin = str2num(answer{2});
 %% create stimuli, standard and deviants
 
 % constants
-f_1000 = 500; %maybe obsolete...
+dur = 0.075; %stimulus duration, standard
+std_db_500 = -107+sl_500+60; %standard SL + 60dB
 
-f_5000 = 5000;
-dur = 0.075; %stimulus duration
-std_db = -100+sl_500+60; %standard SL + 60dB
+% fix hard upper limit, for loud up deviant
+if std_db_500 >=  0
+    std_db_500 = -11;
+end
+
+std_db_tin = -107+sl_tin+60; %tinnitus SL + 60dB
+
+% fix hard upper limit, for loud up deviant
+if std_db_tin >=  0
+    std_db_tin = -11;
+end
+
 rmp = 0.005; %standard ramp
 
 % standard
 s_500_st_10 = o_ptb.stimuli.auditory.Sine(500, dur);	
-s_500_st_10.db = std_db; %check dynamic range
+s_500_st_10.db = std_db_500; %check dynamic range
 s_500_st_10.apply_cos_ramp(rmp);
 
 % freq
-s_500_freq_up_11 = o_ptb.stimuli.auditory.Sine(f_1000+0.1*f_1000, dur);
-s_500_freq_up_11.db = std_db;
+s_500_freq_up_11 = o_ptb.stimuli.auditory.Sine(500+0.1*500, dur);
+s_500_freq_up_11.db = std_db_500;
 s_500_freq_up_11.apply_cos_ramp(rmp);
 
-s_500_freq_down_12 = o_ptb.stimuli.auditory.Sine(f_1000-0.1*f_1000, dur);
-s_500_freq_down_12.db = std_db;
+s_500_freq_down_12 = o_ptb.stimuli.auditory.Sine(500-0.1*500, dur);
+s_500_freq_down_12.db = std_db_500;
 s_500_freq_down_12.apply_cos_ramp(rmp);
 
 % loudness
 s_500_loud_up_13 = o_ptb.stimuli.auditory.Sine(500, dur);
-s_500_loud_up_13.db = std_db + 10;
+s_500_loud_up_13.db = std_db_500 + 10;
 s_500_loud_up_13.apply_cos_ramp(rmp);
 
 s_500_loud_dwn_14 = o_ptb.stimuli.auditory.Sine(500, dur);
-s_500_loud_dwn_14.db = std_db - 10;
+s_500_loud_dwn_14.db = std_db_500 - 10;
 s_500_loud_dwn_14.apply_cos_ramp(rmp);
 
-%location . channel issue? maybe fix with muted channels  muted_channels : int or array of ints If empty (i.e. []), both channels are played. If set to 1, the left channel is muted. If set to 2, the right channel is muted. If set to   [1 2], both channels are muted.
+%location
 s_500_loc_l_15 = o_ptb.stimuli.auditory.Sine(500, dur);	
 s_500_loc_l_15.angle = -pi/2;
 % s_500_loc_l_17.muted_channels = 2;
-s_500_loc_l_15.db = std_db; 
+s_500_loc_l_15.db = std_db_500; 
 s_500_loc_l_15.apply_cos_ramp(rmp);
 
 s_500_loc_r_16 = o_ptb.stimuli.auditory.Sine(500, dur);	
 s_500_loc_r_16.angle = pi/2;
 % s_500_loc_r_17.muted_channels = 1;
-s_500_loc_r_16.db = std_db; 
+s_500_loc_r_16.db = std_db_500; 
 s_500_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
 s_500_dur_17 = o_ptb.stimuli.auditory.Sine(500, dur-0.05);
-s_500_dur_17.db = std_db;
+s_500_dur_17.db = std_db_500;
 s_500_dur_17.apply_cos_ramp(rmp);
 
 % gap
@@ -159,7 +169,7 @@ gap_2 = (amplitude * sin(2*pi*(1:(sr*0.035))/sr*500)) .* r_z;
 gap_x = [gap_1,gap,gap_2];
 
 s_500_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, 44100);
-s_500_gap_18.db = std_db;
+s_500_gap_18.db = std_db_500;
 
 %%%%%%%%%%%%%%%
 % tin
@@ -170,27 +180,23 @@ tinf0 = tin_freq   ;
 % standard
 s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
 
-
-
-
 s_tin_st_10 = o_ptb.stimuli.auditory.FromMatrix(s1, sr);
-s_tin_st_10.db = std_db;
+s_tin_st_10.db = std_db_tin;
 s_tin_st_10.apply_cos_ramp(rmp);
 
 % freq
 % up
 s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0+(0.1*tinf0)))) ;
 
-
 s_tin_freq_up_11 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
-s_tin_freq_up_11.db = std_db;
+s_tin_freq_up_11.db = std_db_tin;
 s_tin_freq_up_11.apply_cos_ramp(rmp);
 
 % down
 s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*(tinf0-(0.1*tinf0)))) ;
 
 s_tin_freq_down_12 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
-s_tin_freq_down_12.db = std_db;
+s_tin_freq_down_12.db = std_db_tin;
 s_tin_freq_down_12.apply_cos_ramp(rmp);
 
 % loudness
@@ -198,22 +204,22 @@ s_tin_freq_down_12.apply_cos_ramp(rmp);
 s1 = (amplitude * sin(2*pi*(1:(sr*0.075))/sr*tinf0)) ;
 
 s_tin_loud_up_13 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
-s_tin_loud_up_13.db = std_db + 10;
+s_tin_loud_up_13.db = std_db_tin + 10;
 s_tin_loud_up_13.apply_cos_ramp(rmp);
 
 s_tin_loud_dwn_14 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);
-s_tin_loud_dwn_14.db = std_db - 10;
+s_tin_loud_dwn_14.db = std_db_tin - 10;
 s_tin_loud_dwn_14.apply_cos_ramp(rmp);
 
 %location 
 s_tin_loc_l_15 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);	
 s_tin_loc_l_15.angle = -pi/2;
-s_tin_loc_l_15.db = std_db; 
+s_tin_loc_l_15.db = std_db_tin; 
 s_tin_loc_l_15.apply_cos_ramp(rmp);
 
 s_tin_loc_r_16 = o_ptb.stimuli.auditory.FromMatrix(s1,sr);	
 s_tin_loc_r_16.angle = pi/2;
-s_tin_loc_r_16.db = std_db; 
+s_tin_loc_r_16.db = std_db_tin; 
 s_tin_loc_r_16.apply_cos_ramp(rmp);
 
 %duration
@@ -221,7 +227,7 @@ s1 = (amplitude * sin(2*pi*(1:(sr*0.025))/sr*tinf0)) ;
 
 
 s_tin_dur_17 = o_ptb.stimuli.auditory.FromMatrix(s1,sr) ;
-s_tin_dur_17.db = std_db;
+s_tin_dur_17.db = std_db_tin;
 s_tin_dur_17.apply_cos_ramp(rmp);
 
 
@@ -250,7 +256,8 @@ gap   = zeros(1,220)    ;
 gap_x = [gap_1,gap,gap_2];
 
 s_tin_gap_18 = o_ptb.stimuli.auditory.FromMatrix(gap_x, sr);
-s_tin_gap_18.db = std_db;
+s_tin_gap_18.db = std_db_tin;
+
 
 %% main block, pseudo random sequence init
 
