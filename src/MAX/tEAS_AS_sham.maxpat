@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 8.0, 53.0, 1593.0, 1037.0 ],
+		"rect" : [ 0.0, 43.0, 1856.0, 1037.0 ],
 		"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 		"bglocked" : 0,
@@ -129,7 +129,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 769.5, 817.5, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "40"
+					"text" : "23"
 				}
 
 			}
@@ -205,7 +205,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 1029.0, 651.0, 34.0, 22.0 ],
+					"patching_rect" : [ 1167.5, 704.0, 34.0, 22.0 ],
 					"style" : "",
 					"text" : "*~ 1."
 				}
@@ -287,7 +287,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 802.0, 1198.0, 36.0, 36.0 ],
 					"style" : "",
-					"text" : "0.300459"
+					"text" : "0.300005"
 				}
 
 			}
@@ -894,7 +894,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 155.25, 662.0, 29.5, 22.0 ],
 					"style" : "",
-					"text" : "15"
+					"text" : "85"
 				}
 
 			}
@@ -920,7 +920,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 347.0, 890.0, 70.0, 22.0 ],
 					"style" : "",
-					"text" : "-70."
+					"text" : "0."
 				}
 
 			}
@@ -5206,13 +5206,12 @@
 						"styles" : [ 							{
 								"name" : "jasch_new",
 								"default" : 								{
-									"fontname" : [ "Verdana" ],
-									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
 									"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
 									"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+									"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
 									"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
 									"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
+									"fontsize" : [ 10.0 ],
 									"bgfillcolor" : 									{
 										"type" : "gradient",
 										"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -5223,8 +5222,9 @@
 										"autogradient" : 0
 									}
 ,
+									"fontname" : [ "Verdana" ],
+									"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
 									"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-									"fontsize" : [ 10.0 ],
 									"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 								}
 ,
@@ -6646,10 +6646,10 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-55" : [ "live.gain~", "live.gain~", 0 ],
 			"obj-165" : [ "number[3]", "number[2]", 0 ],
-			"obj-36" : [ "flonum[2]", "flonum", 0 ],
-			"obj-164" : [ "number[2]", "number[2]", 0 ]
+			"obj-164" : [ "number[2]", "number[2]", 0 ],
+			"obj-55" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-36" : [ "flonum[2]", "flonum", 0 ]
 		}
 ,
 		"dependency_cache" : [  ],
@@ -6657,13 +6657,12 @@
 		"styles" : [ 			{
 				"name" : "jasch_new",
 				"default" : 				{
-					"fontname" : [ "Verdana" ],
-					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
 					"textcolor_inverse" : [ 0.0, 0.0, 0.0, 1.0 ],
 					"patchlinecolor" : [ 0.752941, 0.720076, 0.621482, 0.5 ],
+					"bgcolor" : [ 0.752268, 0.752268, 0.752268, 1.0 ],
 					"accentcolor" : [ 0.65098, 0.666667, 0.662745, 1.0 ],
-					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
 					"elementcolor" : [ 0.451266, 0.451266, 0.451266, 1.0 ],
+					"fontsize" : [ 10.0 ],
 					"bgfillcolor" : 					{
 						"type" : "gradient",
 						"color" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
@@ -6674,8 +6673,9 @@
 						"autogradient" : 0
 					}
 ,
+					"fontname" : [ "Verdana" ],
+					"clearcolor" : [ 0.65098, 0.666667, 0.662745, 0.0 ],
 					"selectioncolor" : [ 0.952941, 0.564706, 0.098039, 1.0 ],
-					"fontsize" : [ 10.0 ],
 					"color" : [ 1.0, 0.498039, 0.0, 1.0 ]
 				}
 ,

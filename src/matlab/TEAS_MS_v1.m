@@ -9,7 +9,7 @@ ERP_path = 'E:\TEAS\_git\teas\src\matlab\erp\experiment';
 
 addpath(genpath('C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46'));
 
-addpath(genpath('E:\TEAS\_git\teas\src\matlab'));
+addpath(genpath('E:\TEAS\_git\teas\src\matlab\erp'));
 
 %% In Matlab 2016: Run MultiThreshold once, press any key/click, to debug (it's fine in ML2020 but there ERP does not work....omfg)
 
