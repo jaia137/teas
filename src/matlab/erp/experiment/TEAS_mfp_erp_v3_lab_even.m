@@ -1,4 +1,4 @@
-%% TEAS multifeature auditory oddball script
+ %% TEAS multifeature auditory oddball script
 % o-ptb 
 
 % Author: Patrick Neff, Ph.D., clinical neuroscience

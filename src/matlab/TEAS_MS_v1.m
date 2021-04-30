@@ -5,7 +5,7 @@
 
 MT_path = 'C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46';
 
-ERP_path = 'E:\TEAS\_git\teas\src\matlab\erp';
+ERP_path = 'E:\TEAS\_git\teas\src\matlab\erp\experiment';
 
 addpath(genpath('C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46'));
 
