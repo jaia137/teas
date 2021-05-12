@@ -94,7 +94,7 @@ if std_db_500 >=  0
     std_db_500 = -11;
 end
 
-std_db_tin = -107+sl_tin+60; %tinnitus SL + 60dB
+std_db_tin = -107+sl_tin+40; %tinnitus SL + 40dB
 
 % fix hard upper limit, for loud up deviant 95 db
 if std_db_tin >=  0
@@ -175,7 +175,6 @@ s_500_gap_18.db = std_db_500;
 
 % params
 dur = 0.075; %stimulus duration
-std_db = -107+sl_500+65; %standard SL + 60dB
 rmp = 0.005; %standard ramp
 sr = 44100;
 amplitude = 1;
@@ -194,7 +193,7 @@ s_noise = amplitude_noise .* noise;
 
 s_noise_comb = s_noise + s1;
 
-s_500_ns_19 = o_ptb.stimuli.auditory.FromMatrix(s_noise_comb, dur);	
+s_500_ns_19 = o_ptb.stimuli.auditory.FromMatrix(s_noise_comb, sr);	
 s_500_ns_19.db = std_db_500; %check dynamic range
 s_500_ns_19.apply_cos_ramp(rmp);
 
@@ -298,7 +297,7 @@ s_noise = amplitude_noise .* noise;
 
 s_noise_comb = s_noise + s1;
 
-s_tin_ns_19 = o_ptb.stimuli.auditory.FromMatrix(s_noise_comb, dur);	
+s_tin_ns_19 = o_ptb.stimuli.auditory.FromMatrix(s_noise_comb, sr);	
 s_tin_ns_19.db = std_db_500; %check dynamic range
 s_tin_ns_19.apply_cos_ramp(rmp);
 
