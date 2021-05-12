@@ -87,16 +87,16 @@ sl_tin = str2num(answer{2});
 
 % constants
 dur = 0.075; %stimulus duration, standard
-std_db_500 = -107+sl_500+60; %standard SL + 60dB
+std_db_500 = -107+sl_500+40; %standard SL + 40dB
 
-% fix hard upper limit, for loud up deviant
+% fix hard upper limit, for loud up deviantm 95 db
 if std_db_500 >=  0
     std_db_500 = -11;
 end
 
 std_db_tin = -107+sl_tin+60; %tinnitus SL + 60dB
 
-% fix hard upper limit, for loud up deviant
+% fix hard upper limit, for loud up deviant 95 db
 if std_db_tin >=  0
     std_db_tin = -11;
 end
