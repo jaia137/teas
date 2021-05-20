@@ -11,7 +11,7 @@ ft_defaults
 
 %% FILENAME
 
-dataset = 'MD1312_EEG_erp_visittest.bdf';
+dataset = 'qsddsds.bdf';
 
 
 %% CHECK EVENTS
