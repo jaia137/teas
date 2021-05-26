@@ -667,8 +667,8 @@ WaitSecs(5);
 
 % set params
 % isi = 0.5;
-soaall = 0.00424 ;
-soadur = 0.00374 ;
+soaall = 0.424 ;
+soadur = 0.374 ;
 triglen = 0.0009765625 ; 
 
 
