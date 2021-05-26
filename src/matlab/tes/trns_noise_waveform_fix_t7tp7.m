@@ -1,15 +1,14 @@
-% TRNS NOISE SCRIPT
+%% TRNS NOISE SCRIPT
 
 Fs = 12800;                        % sampling frequency (Hz)
 d = 10.0;                         % <-----------------duration
 n = Fs * d;                        % number of samples
-amp = [-0.1526 0.5289 0.7849 -0.0503 -0.1593 -0.2068 -0.0981 ...
-    -0.2222 0.6862 -0.171 -0.1219 -0.0495 -0.2499 -0.1843 -0.062 -0.2048 -0.0673];
+amp = [0.7849 0.6862];
 
-amp_electrode_list = {'P4' 'T7' 'T8' 'PZ' 'FC1' 'C1' 'C2' 'FC3' 'TP7' 'PO10' '010' 'EX4' 'EX17' 'EX18' 'IZ' 'CP1' 'CP2' };
+amp_electrode_list = {'T8' 'TP7'};
 
-for i = 1:17
-%  carrier white
+for i = 1:2
+%%  carrier white
 
 rand('state',sum(100 * clock));    % initialize random seed
 noise = randn(1, n);               % gaussian noise
