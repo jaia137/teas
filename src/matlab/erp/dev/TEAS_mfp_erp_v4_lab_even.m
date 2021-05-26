@@ -5,13 +5,14 @@
 % University of Zurich
 % email address: schlaukeit@gmail.com  
 % Website: 
-% December 2020; Last revision: 17-Mar-2021
+% December 2020; Last revision: 17-May-2021
 
 %% clear, init
 
 %clear all global 
 
 restoredefaultpath
+
 
 %% add paths
 
@@ -40,9 +41,6 @@ ptb_cfg.psychportaudio_config.device = 8;
 
 
 ptb = o_ptb.PTB.get_instance(ptb_cfg);
-
-
-%% init systems
 
 ptb_cfg.internal_config.final_resolution = [1980 1024];
 
@@ -306,12 +304,12 @@ s_tin_ns_19.apply_cos_ramp(rmp);
 
 % init rndm dev seq 500
 dev_rnd = [1 2 3 4 5 6];
-rng('default');     % reset the time of the computer to create real randomisation with each new start of Matlab
+% rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
 dev_rnd_seq = [];
 
 % init rndm dev seq tin
 dev_rnd_tin = [1 2 3 4 5 6];
-rng('default');     % reset the time of the computer to create real randomisation with each new start of Matlab
+% rng('shuffle');     % reset the time of the computer to create real randomisation with each new start of Matlab
 dev_rnd_seq_tin = [];
 
 
@@ -404,9 +402,9 @@ d_f_tin = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_f_tin)
     if d_f_tin(i) == 0
-        d_f_tin(i) = 11;
+        d_f_tin(i) = 21;
     else
-        d_f_tin(i) = 12;
+        d_f_tin(i) = 22;
     end
 end
 
@@ -415,9 +413,9 @@ d_l_tin = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_l_tin)
     if d_l_tin(i) == 0
-        d_l_tin(i) = 13;
+        d_l_tin(i) = 23;
     else
-        d_l_tin(i) = 14;
+        d_l_tin(i) = 24;
     end
 end
 
@@ -426,9 +424,9 @@ d_lo_tin = (mod( reshape(randperm(M*N), M, N), 2 ))';
 
 for i = 1:numel(d_lo_tin)
     if d_lo_tin(i) == 0
-        d_lo_tin(i) = 15;
+        d_lo_tin(i) = 25;
     else
-        d_lo_tin(i) = 16;
+        d_lo_tin(i) = 26;
     end
 end
 
@@ -464,7 +462,7 @@ for i =1:180
        dev_rnd_seq(i).name(4) = d_l(i);
     elseif dev_rnd_seq(i).name(5) == 2  
        dev_rnd_seq(i).name(5) = d_l(i);
-            elseif dev_rnd_seq(i).name(6) == 2  
+    elseif dev_rnd_seq(i).name(6) == 2  
        dev_rnd_seq(i).name(6) = d_l(i);
     end
 end
@@ -480,7 +478,7 @@ for i =1:180
        dev_rnd_seq(i).name(4) = d_lo(i);
     elseif dev_rnd_seq(i).name(5) == 3  
        dev_rnd_seq(i).name(5) = d_lo(i);
-            elseif dev_rnd_seq(i).name(6) == 3  
+    elseif dev_rnd_seq(i).name(6) == 3  
        dev_rnd_seq(i).name(6) = d_lo(i);
     end
 end
@@ -496,7 +494,7 @@ for i =1:180
        dev_rnd_seq(i).name(4) = 17;
     elseif dev_rnd_seq(i).name(5) == 4  
        dev_rnd_seq(i).name(5) = 17;
-            elseif dev_rnd_seq(i).name(6) == 4  
+    elseif dev_rnd_seq(i).name(6) == 4  
        dev_rnd_seq(i).name(6) = 17;
     end
 end
@@ -512,7 +510,7 @@ for i =1:180
        dev_rnd_seq(i).name(4) = 18;
     elseif dev_rnd_seq(i).name(5) == 5
        dev_rnd_seq(i).name(5) = 18;
-                   elseif dev_rnd_seq(i).name(6) == 5  
+    elseif dev_rnd_seq(i).name(6) == 5  
        dev_rnd_seq(i).name(6) = 18;
     end
 end
@@ -578,58 +576,59 @@ for i =1:180
        dev_rnd_seq_tin(i).name(4) = d_lo_tin(i);
     elseif dev_rnd_seq_tin(i).name(5) == 3  
        dev_rnd_seq_tin(i).name(5) = d_lo_tin(i);
-           elseif dev_rnd_seq_tin(i).name(6) == 3  
+    elseif dev_rnd_seq_tin(i).name(6) == 3  
        dev_rnd_seq_tin(i).name(6) = d_lo_tin(i);
     end
 end
 
 for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 4
-       dev_rnd_seq_tin(i).name(1) = 17;
+       dev_rnd_seq_tin(i).name(1) = 27;
     elseif dev_rnd_seq_tin(i).name(2) == 4  
-       dev_rnd_seq_tin(i).name(2) = 17;
+       dev_rnd_seq_tin(i).name(2) = 27;
     elseif dev_rnd_seq_tin(i).name(3) == 4  
-       dev_rnd_seq_tin(i).name(3) = 17;
+       dev_rnd_seq_tin(i).name(3) = 27;
     elseif dev_rnd_seq_tin(i).name(4) == 4  
-       dev_rnd_seq_tin(i).name(4) = 17;
+       dev_rnd_seq_tin(i).name(4) = 27;
     elseif dev_rnd_seq_tin(i).name(5) == 4  
-       dev_rnd_seq_tin(i).name(5) = 17;
+       dev_rnd_seq_tin(i).name(5) = 27;
     elseif dev_rnd_seq_tin(i).name(6) == 4  
-       dev_rnd_seq_tin(i).name(6) = 17;
+       dev_rnd_seq_tin(i).name(6) = 27;
     end
 end
 
 for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 5
-       dev_rnd_seq_tin(i).name(1) = 18;
+       dev_rnd_seq_tin(i).name(1) = 28;
     elseif dev_rnd_seq_tin(i).name(2) == 5  
-       dev_rnd_seq_tin(i).name(2) = 18;
+       dev_rnd_seq_tin(i).name(2) = 28;
     elseif dev_rnd_seq_tin(i).name(3) == 5 
-       dev_rnd_seq_tin(i).name(3) = 18;
+       dev_rnd_seq_tin(i).name(3) = 28;
     elseif dev_rnd_seq_tin(i).name(4) == 5  
-       dev_rnd_seq_tin(i).name(4) = 18;
+       dev_rnd_seq_tin(i).name(4) = 28;
     elseif dev_rnd_seq_tin(i).name(5) == 5
-       dev_rnd_seq_tin(i).name(5) = 18;
+       dev_rnd_seq_tin(i).name(5) = 28;
     elseif dev_rnd_seq_tin(i).name(6) == 5  
-       dev_rnd_seq_tin(i).name(6) = 18;
+       dev_rnd_seq_tin(i).name(6) = 28;
     end
 end
 
 for i =1:180 
     if dev_rnd_seq_tin(i).name(1) == 6
-       dev_rnd_seq_tin(i).name(1) = 19;
+       dev_rnd_seq_tin(i).name(1) = 29;
     elseif dev_rnd_seq_tin(i).name(2) == 6  
-       dev_rnd_seq_tin(i).name(2) = 19;
+       dev_rnd_seq_tin(i).name(2) = 29;
     elseif dev_rnd_seq_tin(i).name(3) == 6 
-       dev_rnd_seq_tin(i).name(3) = 19;
+       dev_rnd_seq_tin(i).name(3) = 29;
     elseif dev_rnd_seq_tin(i).name(4) == 6  
-       dev_rnd_seq_tin(i).name(4) = 19;
+       dev_rnd_seq_tin(i).name(4) = 29;
     elseif dev_rnd_seq_tin(i).name(5) == 6
-       dev_rnd_seq_tin(i).name(5) = 19;
+       dev_rnd_seq_tin(i).name(5) = 29;
     elseif dev_rnd_seq_tin(i).name(6) == 6  
-       dev_rnd_seq_tin(i).name(6) = 19;
+       dev_rnd_seq_tin(i).name(6) = 29;
     end
 end
+
 
 %% weave in standards, create final stim block lists
 
@@ -643,15 +642,22 @@ end
 % tin
 
 for i = 1:180
-       dev_rnd_seq_tin(i).name = [10 dev_rnd_seq_tin(i).name(1) 10 dev_rnd_seq_tin(i).name(2) ...
-                           10 dev_rnd_seq_tin(i).name(3) 10 dev_rnd_seq_tin(i).name(4)...
-                           10 dev_rnd_seq_tin(i).name(5) 10 dev_rnd_seq_tin(i).name(6)];
+       dev_rnd_seq_tin(i).name = [20 dev_rnd_seq_tin(i).name(1) 20 dev_rnd_seq_tin(i).name(2) ...
+                           20 dev_rnd_seq_tin(i).name(3) 20 dev_rnd_seq_tin(i).name(4)...
+                           20 dev_rnd_seq_tin(i).name(5) 20 dev_rnd_seq_tin(i).name(6)];
 end
   
 
 %% FINAL SEQUENCES, for 500 and TIN
 
 dev_rnd_seq_500 = dev_rnd_seq;
+
+%% check structs burried in substructs....can be removed
+
+A = struct2cell(dev_rnd_seq_tin);
+out = cat(2,A{:});
+
+out = out';
 
 %%
 %% EXPERIMENT
@@ -661,8 +667,8 @@ WaitSecs(5);
 
 % set params
 % isi = 0.5;
-soaall = 0.424 ;
-soadur = 0.374 ;
+soaall = 0.00424 ;
+soadur = 0.00374 ;
 triglen = 0.0009765625 ; 
 
 
@@ -716,8 +722,8 @@ for i = 1:15
 end 
 
 for i = 1:60
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if dev_rnd_seq_tin(i).name(j) == 10 
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 20 
             ptb.prepare_audio(s_tin_st_10)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -725,7 +731,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 11
+        elseif dev_rnd_seq_tin(i).name(j) == 21
             ptb.prepare_audio(s_tin_freq_up_11)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -733,7 +739,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 12
+        elseif dev_rnd_seq_tin(i).name(j) == 22
             ptb.prepare_audio(s_tin_freq_down_12);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -741,7 +747,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 13
+        elseif dev_rnd_seq_tin(i).name(j) == 23
             ptb.prepare_audio(s_tin_loud_up_13);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -749,7 +755,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 14
+        elseif dev_rnd_seq_tin(i).name(j) == 24
             ptb.prepare_audio(s_tin_loud_dwn_14);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -757,7 +763,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 15
+        elseif dev_rnd_seq_tin(i).name(j) == 25
             ptb.prepare_audio(s_tin_loc_l_15);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -765,7 +771,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 16
+        elseif dev_rnd_seq_tin(i).name(j) == 26
             ptb.prepare_audio(s_tin_loc_r_16);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -773,7 +779,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 17
+        elseif dev_rnd_seq_tin(i).name(j) == 27
             ptb.prepare_audio(s_tin_dur_17);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -781,7 +787,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soadur);
-        elseif dev_rnd_seq_tin(i).name(j) == 18
+        elseif dev_rnd_seq_tin(i).name(j) == 28
             ptb.prepare_audio(s_tin_gap_18);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -789,7 +795,7 @@ for i = 1:60
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 19
+        elseif dev_rnd_seq_tin(i).name(j) == 29
             ptb.prepare_audio(s_tin_ns_19);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -814,7 +820,7 @@ for i = 1:15
 end 
 
 for i = 1:60
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_500(i).name(j) == 10
             ptb.prepare_audio(s_500_st_10)
             ptb.schedule_audio;
@@ -912,8 +918,8 @@ for i = 1:15
 end 
 
 for i = 61:120
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if dev_rnd_seq_tin(i).name(j) == 10 
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 20 
             ptb.prepare_audio(s_tin_st_10)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -921,7 +927,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 11
+        elseif dev_rnd_seq_tin(i).name(j) == 21
             ptb.prepare_audio(s_tin_freq_up_11)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -929,7 +935,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 12
+        elseif dev_rnd_seq_tin(i).name(j) == 22
             ptb.prepare_audio(s_tin_freq_down_12);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -937,7 +943,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 13
+        elseif dev_rnd_seq_tin(i).name(j) == 23
             ptb.prepare_audio(s_tin_loud_up_13);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -945,7 +951,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 14
+        elseif dev_rnd_seq_tin(i).name(j) == 24
             ptb.prepare_audio(s_tin_loud_dwn_14);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -953,7 +959,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 15
+        elseif dev_rnd_seq_tin(i).name(j) == 25
             ptb.prepare_audio(s_tin_loc_l_15);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -961,7 +967,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 16
+        elseif dev_rnd_seq_tin(i).name(j) == 26
             ptb.prepare_audio(s_tin_loc_r_16);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -969,7 +975,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 17
+        elseif dev_rnd_seq_tin(i).name(j) == 27
             ptb.prepare_audio(s_tin_dur_17);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -977,7 +983,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soadur);
-        elseif dev_rnd_seq_tin(i).name(j) == 18
+        elseif dev_rnd_seq_tin(i).name(j) == 28
             ptb.prepare_audio(s_tin_gap_18);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -985,7 +991,7 @@ for i = 61:120
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 19
+        elseif dev_rnd_seq_tin(i).name(j) == 29
             ptb.prepare_audio(s_tin_ns_19);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1020,7 +1026,7 @@ for i = 1:15
 end 
 
 for i = 61:120
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_500(i).name(j) == 10
             ptb.prepare_audio(s_500_st_10)
             ptb.schedule_audio;
@@ -1118,8 +1124,8 @@ for i = 1:15
 end 
 
 for i = 121:180
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if dev_rnd_seq_tin(i).name(j) == 10 
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if dev_rnd_seq_tin(i).name(j) == 20 
             ptb.prepare_audio(s_tin_st_10)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1127,7 +1133,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 11
+        elseif dev_rnd_seq_tin(i).name(j) == 21
             ptb.prepare_audio(s_tin_freq_up_11)
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1135,7 +1141,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 12
+        elseif dev_rnd_seq_tin(i).name(j) == 22
             ptb.prepare_audio(s_tin_freq_down_12);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1143,7 +1149,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 13
+        elseif dev_rnd_seq_tin(i).name(j) == 23
             ptb.prepare_audio(s_tin_loud_up_13);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1151,7 +1157,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 14
+        elseif dev_rnd_seq_tin(i).name(j) == 24
             ptb.prepare_audio(s_tin_loud_dwn_14);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1159,7 +1165,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 15
+        elseif dev_rnd_seq_tin(i).name(j) == 25
             ptb.prepare_audio(s_tin_loc_l_15);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1167,7 +1173,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 16
+        elseif dev_rnd_seq_tin(i).name(j) == 26
             ptb.prepare_audio(s_tin_loc_r_16);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1175,7 +1181,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 17
+        elseif dev_rnd_seq_tin(i).name(j) == 27
             ptb.prepare_audio(s_tin_dur_17);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1183,7 +1189,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soadur);
-        elseif dev_rnd_seq_tin(i).name(j) == 18
+        elseif dev_rnd_seq_tin(i).name(j) == 28
             ptb.prepare_audio(s_tin_gap_18);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1191,7 +1197,7 @@ for i = 121:180
             WaitSecs(triglen);
             outp(address,0);
             WaitSecs(soaall);
-        elseif dev_rnd_seq_tin(i).name(j) == 19
+        elseif dev_rnd_seq_tin(i).name(j) == 29
             ptb.prepare_audio(s_tin_ns_19);
             ptb.schedule_audio;
             ptb.play_without_flip;
@@ -1216,7 +1222,7 @@ for i = 1:15
 end 
 
 for i = 121:180
-    for j = 1:10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+    for j = 1:12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if dev_rnd_seq_500(i).name(j) == 10
             ptb.prepare_audio(s_500_st_10)
             ptb.schedule_audio;

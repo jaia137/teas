@@ -2,8 +2,8 @@
 
 % cd(m1path);
 
-addpath('/Users/shanti/Documents/GitHub/fieldtrip');
-cd( '/Users/shanti/Desktop');
+addpath('C:\Users\EEG_SUM\Documents\MATLAB\fieldtrip-20170119');
+cd( 'G:\');
 % cd((m1dir(i));    
 
 ft_defaults
@@ -11,7 +11,7 @@ ft_defaults
 
 %% FILENAME
 
-dataset = 'qsddsds.bdf';
+dataset = 'v4.bdf';
 
 
 %% CHECK EVENTS
