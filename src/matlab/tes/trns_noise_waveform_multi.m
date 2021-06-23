@@ -11,7 +11,12 @@ amp_electrode_list = {'P4' 'T7' 'T8' 'PZ' 'FC1' 'C1' 'C2' 'FC3' 'TP7' 'PO10' '01
 for i = 1:17
 %  carrier white
 
-rand('state',sum(100 * clock));    % initialize random seed
+seed = 137;
+rng(seed,'twister')
+
+%rand('state',sum(100 * clock));    % initialize random seed
+rng('shuffle');
+
 noise = randn(1, n);               % gaussian noise
 
 %% filter, alternatively use fieldtrip filters
@@ -19,10 +24,12 @@ noise = randn(1, n);               % gaussian noise
 Fc1 = 0.1;
 Fc2 = 100;
 
-h=fdesign.bandpass('N,Fc1,Fc2',64,Fc1,Fc2,Fs);
+h=fdesign.bandpass('N,Fc1,Fc2',4,Fc1,Fc2,Fs);
 Hd = design(h, 'butter');
 bandpass=filter(Hd,noise);
 bp_norm = bandpass / max(abs(bandpass));   % -1 to 1 normalization
+
+%% 
 
 %% amplitude
 
