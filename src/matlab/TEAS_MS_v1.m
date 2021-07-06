@@ -3,8 +3,7 @@
 
 %% INIT, ADDPATH, CD
 
-MT_path = 'C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46';
-
+MT_path = 'C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46'
 ERP_path = 'E:\TEAS\_git\teas\src\matlab\erp\experiment';
 
 addpath(genpath('C:\Users\EEG_SUM\Desktop\MultiThreshold\MAP1_14\USZmultiThreshold\multiThreshold 1.46'));
@@ -20,6 +19,7 @@ run('USZmultiThreshold.m');
 waitforbuttonpress;
 
 close all;
+
 
 %% MultiThreshold Session 1
 
@@ -59,7 +59,7 @@ run('USZmultiThreshold.m');
 
 cd(ERP_path);
 
-open('TEAS_mfp_erp_v3_lab_odd.m');
+open('TEAS_mfp_erp_v4_lab_odd.m');
 
 % run script and follow instructions, close when done
 
@@ -67,7 +67,7 @@ open('TEAS_mfp_erp_v3_lab_odd.m');
 
 cd(ERP_path);
 
-open('TEAS_mfp_erp_v3_lab_even.m');
+open('TEAS_mfp_erp_v4_lab_even.m');
 
 % run script and follow instructions, close when done
 
